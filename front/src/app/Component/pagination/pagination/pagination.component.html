@@ -1,0 +1,25 @@
+<div class="pagination-container flex justify-center items-center space-x-2 py-4">
+  <button
+    class="px-4 py-2 bg-gray-200 text-gray-800 rounded"
+    [disabled]="currentPage === 1"
+    (click)="changePage(currentPage - 1)">
+    Précédent
+  </button>
+
+  <span *ngFor="let page of pages"
+        class="px-4 py-2 rounded"
+        [ngClass]="{
+          'bg-blue-500 text-white': page === currentPage,
+          'bg-white text-gray-800 cursor-pointer': page !== currentPage
+        }"
+        (click)="changePage(page)">
+    {{ page }}
+  </span>
+
+  <button
+    class="px-4 py-2 bg-gray-200 text-gray-800 rounded"
+    [disabled]="currentPage === totalPages"
+    (click)="changePage(currentPage + 1)">
+    Suivant
+  </button>
+</div>

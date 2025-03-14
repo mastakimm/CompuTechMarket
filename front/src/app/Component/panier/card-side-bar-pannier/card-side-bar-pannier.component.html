@@ -1,0 +1,21 @@
+<div class="bg-gray-100 shadow-md rounded-lg px-4 py-2 mb-4 flex  items-center justify-between">
+  <div class="flex gap-4 w-11/12">
+    <img class="w-12 object-cover rounded-lg" [src]="item.mainImage" alt="item.name">
+    <div class=" flex flex-col w-6/12">
+      <h4 class="text-lg font-semibold truncate">{{ item.name }}</h4>
+      <p class="text-gray-600 text-xs">
+        @if(item.promotion){
+          <span class="text-gray-500 line-through">{{item.originalPrice}}€ </span>
+        }
+        {{ item.price}}€
+      </p>
+      <p class="text-gray-600 text-xs">Quantité: {{ item.quantity }}</p>
+      <p class="text-red-600 text-xs">{{errorMsg}}</p>
+    </div>
+  </div>
+
+  <div class="flex  items-center flex-col gap-2 ">
+    <p (click)="addItemQuantity()" class="no-select bg-red-600 flex items-center justify-center text-white rounded cursor-pointer w-5 h-5 pb-[3px]">+</p>
+    <p (click)="onDecreaseItemQuantity()" class=" no-select bg-red-600 text-white rounded cursor-pointer w-5 h-5 pb-[3px] flex items-center justify-center">-</p>
+  </div>
+</div>

@@ -1,0 +1,146 @@
+<div class="container mx-auto overflow-hidden bg-gray-100 min-h-screen">
+  <div class="relative bg-white shadow-lg rounded-lg p-6 space-y-6 max-w-full overflow-hidden">
+    <h1 class="text-3xl font-bold mb-6">Nouveau produit</h1>
+
+    <div class="flex justify-end mb-4">
+      <button type="button" (click)="loadLastProduct()" class="bg-red-500 text-white px-4 py-2 rounded-md hover:bg-red-600">
+        Charger le dernier produit ajouté
+      </button>
+    </div>
+
+    <div *ngIf="successMessage" class="bg-green-100 text-green-800 p-4 rounded mb-4">
+      {{ successMessage }}
+    </div>
+    <div *ngIf="errorMessage" class="bg-red-100 text-red-800 p-4 rounded mb-4">
+      {{ errorMessage }}
+    </div>
+
+    <form [formGroup]="productForm" (ngSubmit)="createComponent()" enctype="multipart/form-data">
+      <div class="col-span-1 md:col-span-2 flex gap-6">
+        <div class="flex-1">
+          <h4>Catégorie</h4>
+          <select required formControlName="typeId" class="w-full p-2 border-2 border-gray-400 rounded" (change)="onCategoryChange($event)">
+            <option *ngIf="!productForm.get('typeId')?.value" value="">Pas de catégorie sélectionnée</option>
+            <option *ngFor="let type of allComponentTypes" [value]="type.id">{{ type.name }}</option>
+          </select>
+        </div>
+
+        <div class="flex-1">
+          <h4>Sous-catégorie</h4>
+          <select formControlName="subCategoryId" class="w-full p-2 border-2 border-gray-400 rounded" [disabled]="!subcategories.length">
+            <option *ngIf="!productForm.get('subCategoryId')?.value" value="">Pas de sous-catégorie sélectionnée</option>
+            <option *ngFor="let subCategory of subcategories" [value]="subCategory.id">{{ subCategory.name }}</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="p-8 pt-12">
+        <mat-divider></mat-divider>
+      </div>
+
+      <div class="space-y-4">
+        <h4 class="text-lg font-semibold">Détail du produit</h4>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div>
+            <label for="product_name" class="block mb-2 text-sm font-medium text-gray-900">Nom</label>
+            <input type="text" id="product_name" formControlName="name" class="bg-gray-50 border border-gray-400 text-gray-900 text-sm rounded-lg block w-full p-2 focus:outline-none focus:ring-2 focus:ring-blue-500" />
+          </div>
+          <div>
+            <label for="product_manufacturer" class="block mb-2 text-sm font-medium text-gray-900">Fabricant</label>
+            <input type="text" id="product_manufacturer" formControlName="manufacturer" class="bg-gray-50 border border-gray-400 text-gray-900 text-sm rounded-lg block w-full p-2 focus:outline-none focus:ring-2 focus:ring-blue-500" />
+          </div>
+          <div>
+            <label for="product_model" class="block mb-2 text-sm font-medium text-gray-900">Modèle</label>
+            <input type="text" id="product_model" formControlName="model" class="bg-gray-50 border border-gray-400 text-gray-900 text-sm rounded-lg block w-full p-2 focus:outline-none focus:ring-2 focus:ring-blue-500" />
+          </div>
+          <div>
+            <label for="product_price" class="block mb-2 text-sm font-medium text-gray-900">Prix</label>
+            <input type="number" id="product_price" formControlName="price" class="bg-gray-50 border border-gray-400 text-gray-900 text-sm rounded-lg block w-full p-2 focus:outline-none focus:ring-2 focus:ring-blue-500" />
+          </div>
+          <div>
+            <label for="product_color" class="block mb-2 text-sm font-medium text-gray-900">Couleur</label>
+            <div class="relative flex items-center gap-4">
+              <input type="color" id="product_color" formControlName="color"
+                     class="absolute-color-input"
+                     (input)="updateColor($event)" />
+
+              <div class="custom-color-picker w-10 h-10 rounded-full border border-gray-400 cursor-pointer"
+                   [style.backgroundColor]="productForm.get('color')?.value"
+                   (click)="triggerColorPicker()"></div>
+            </div>
+          </div>
+        </div>
+
+        <div>
+          <h4 class="mb-2 text-sm font-medium text-gray-900">Description</h4>
+          <textarea formControlName="description" class="bg-gray-50 border border-gray-400 text-gray-900 text-sm rounded-lg block w-full p-2 focus:outline-none focus:ring-2 focus:ring-blue-500" rows="3"></textarea>
+        </div>
+
+        <div class="p-8 pt-12">
+          <mat-divider></mat-divider>
+        </div>
+
+        <div>
+          <h4 class="text-lg font-semibold mb-4">Spécifications</h4>
+          <div class="w-full flex flex-col gap-2">
+            <div formArrayName="specifications" class="flex flex-col gap-2 max-h-64 overflow-y-auto border border-gray-400 p-2 rounded-md">
+              <div *ngFor="let spec of specifications.controls; let i = index" [formGroupName]="i" class="flex gap-2">
+                <input formControlName="title" placeholder="Titre" class="w-1/2 text-sm font-medium px-3 py-2 border border-gray-400 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+                <input formControlName="value" placeholder="Valeur" class="w-1/2 text-sm font-medium px-3 py-2 border border-gray-400 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+              </div>
+            </div>
+            <div class="flex justify-center content-center mt-2">
+              <button type="button" (click)="addSpecification()" class="text-lg h-10 w-48 bg-red-600 text-white rounded-md">+</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="p-8 pt-12">
+        <mat-divider></mat-divider>
+      </div>
+
+      <div class="space-y-4">
+        <h4 class="text-lg font-semibold">Dimensions physiques</h4>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div>
+            <label for="product_weight" class="block mb-2 text-sm font-medium text-gray-900">Poids</label>
+            <input type="number" id="product_weight" formControlName="weight" class="bg-gray-50 border border-gray-400 text-gray-900 text-sm rounded-lg block w-full p-2 focus:outline-none focus:ring-2 focus:ring-blue-500" />
+          </div>
+          <div>
+            <label for="product_height" class="block mb-2 text-sm font-medium text-gray-900">Hauteur</label>
+            <input type="number" id="product_height" formControlName="height" class="bg-gray-50 border border-gray-400 text-gray-900 text-sm rounded-lg block w-full p-2 focus:outline-none focus:ring-2 focus:ring-blue-500" />
+          </div>
+          <div>
+            <label for="product_width" class="block mb-2 text-sm font-medium text-gray-900">Largeur</label>
+            <input type="number" id="product_width" formControlName="width" class="bg-gray-50 border border-gray-400 text-gray-900 text-sm rounded-lg block w-full p-2 focus:outline-none focus:ring-2 focus:ring-blue-500" />
+          </div>
+          <div>
+            <label for="product_length" class="block mb-2 text-sm font-medium text-gray-900">Longueur</label>
+            <input type="number" id="product_length" formControlName="length" class="bg-gray-50 border border-gray-400 text-gray-900 text-sm rounded-lg block w-full p-2 focus:outline-none focus:ring-2 focus:ring-blue-500" />
+          </div>
+        </div>
+      </div>
+
+      <div class="p-8 pt-12">
+        <mat-divider></mat-divider>
+      </div>
+
+      <div class="space-y-4">
+        <h4 class="text-lg font-semibold">Images du Produit</h4>
+        <label class="w-full h-11 border-2 border-gray-400 font-semibold rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 file:mr-4 file:py-4 file:px-4 file:w-full file:border-0 file:text-sm file:font-semibold file:bg-white file:text-gray-500 hover:file:bg-gray-200 cursor-pointer flex items-center justify-center">
+          <input type="file" (change)="onFileChange($event)" multiple class="hidden">
+          Sélectionner des fichiers
+        </label>
+        <ul class="mt-2">
+          <li *ngFor="let file of selectedFiles; let i = index" class="flex justify-between items-center border border-gray-400 py-1">
+            {{ file }}
+            <button type="button" (click)="removeFile(i)" class="text-red-600">X</button>
+          </li>
+        </ul>
+      </div>
+
+      <button type="submit" class="w-full bg-red-600 text-white py-3 mt-6 rounded-md text-lg">Ajouter un produit</button>
+    </form>
+  </div>
+</div>

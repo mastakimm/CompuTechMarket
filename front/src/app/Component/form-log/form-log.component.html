@@ -1,0 +1,127 @@
+@if(loading){
+  <div class="w-full h-[90vh] flex items-center justify-center">
+    <mat-spinner color="warn" ></mat-spinner>
+  </div>
+} @else {
+  <form class="formRegister hidden min-h-[90vh] flex justify-center items-center" [formGroup]="registerForm" (ngSubmit)="sendFormRegister()">
+    <div class="max-w-lg w-full h-auto p-8 bg-white rounded-2xl shadow border-2 border-gray-300 flex flex-col justify-start items-center gap-8 mx-auto md:p-12 md:max-w-md lg:max-w-lg">
+      <div class="w-full flex flex-col justify-start items-center gap-1">
+        <div class="w-full text-center text-black text-2xl font-semibold">Bienvenue</div>
+        <div class="w-full text-center text-black text-sm">Déjà inscrit ? <span class="text-red-600 underline cursor-pointer" (click)="changeForm(2)">Connection</span></div>
+      </div>
+      <div class="w-full flex flex-col justify-start items-center gap-2">
+        <div class="w-full flex flex-col justify-start items-start gap-6">
+          <div class="w-full flex flex-col justify-start items-start gap-2">
+            <div class="relative w-full">
+              <input type="email" name="mail" required formControlName="email" placeholder="yourmail@gmail.com" class="w-full h-12 bg-white rounded-lg shadow border border-gray-300 px-4 py-2 text-sm text-gray-700"/>
+              <div class="absolute top-[-0.5rem] left-3 bg-white px-1 text-xs font-semibold text-gray-900">E-mail <span class="text-red-500">*</span></div>
+            </div>
+          </div>
+          <div class="w-full flex flex-col justify-start items-start gap-2">
+            <div class="relative w-full">
+              <input type="text" name="username" required formControlName="username" placeholder="your username" class="w-full h-12 bg-white rounded-lg shadow border border-gray-300 px-4 py-2 text-sm text-gray-700"/>
+              <div class="absolute top-[-0.5rem] left-3 bg-white px-1 text-xs font-semibold text-gray-900">identifiant <span class="text-red-500">*</span></div>
+            </div>
+          </div>
+          <div class="w-full flex flex-col justify-start items-start gap-2">
+            <div class="relative w-full">
+              <input [type]="passwordFieldType" required formControlName="password" name="password" placeholder="•••••••••••••" class="w-full h-12 bg-white rounded-lg shadow border border-gray-300 px-4 py-2 text-sm text-gray-700"/>
+              <button type="button" (click)="togglePasswordVisibility()" class="absolute right-3 top-3 text-sm text-gray-700 cursor-pointer">voir</button>
+              <div class="absolute top-[-0.5rem] left-3 bg-white px-1 text-xs font-semibold text-gray-900">Password <span class="text-red-500">*</span></div>
+            </div>
+          </div>
+          <div class="w-full flex flex-col justify-start items-start gap-2">
+            <div class="relative w-full">
+              <input [type]="confirmPasswordFieldType" required formControlName="confirmPassword"  name="confirmPassword" placeholder="•••••••••••••" class="w-full h-12 bg-white rounded-lg shadow border border-gray-300 px-4 py-2 text-sm text-gray-700"/>
+              <button type="button" (click)="toggleConfirmPasswordVisibility()" class="absolute right-3 top-3 text-sm text-gray-700 cursor-pointer">voir</button>
+              <div class="absolute top-[-0.5rem] left-3 bg-white px-1 text-xs font-semibold text-gray-900">Confirm password <span class="text-red-500">*</span></div>
+            </div>
+            <p class="text-xs text-zinc-400">Le mot de passe doit faire plus de 8 caractères, comprendre des majuscules, minuscules, des nombres, et des symboles spéciaux.</p>
+          </div>
+        </div>
+      </div>
+      <div class="w-full flex items-center gap-2">
+        <input type="checkbox" formControlName="acceptCGU" required="required" class="w-4 h-4" id="acceptCGU"/>
+        <label for="acceptCGU" class="text-sm text-gray-700">
+          J'accepte les <a href="/cgu" target="_blank" class="text-red-600 underline">Conditions Générales d'Utilisation</a>
+        </label>
+      </div>
+      <div class="w-full h-12 px-6 py-3 bg-[#e12828] rounded-lg flex justify-center items-center cursor-pointer animeButton">
+        <button type="submit" class="text-center text-white text-lg font-semibold font-['Inter'] leading-7">Envoyer</button>
+      </div>
+      <p  class="text-red-600">{{ errorMsg }}</p>
+
+    </div>
+
+  </form>
+}
+
+
+<!-- Login Form -->
+
+<form class="formLogin   min-h-[90vh] flex justify-center items-center" [formGroup]="logForm" (ngSubmit)="sendFormLogin()">
+  <div class="max-w-lg w-full h-auto p-8 bg-white rounded-2xl shadow border-2 border-gray-300 flex flex-col justify-start items-center gap-8 mx-auto md:p-12 md:max-w-md lg:max-w-lg">
+    <div class="w-full flex flex-col justify-start items-center gap-1.5">
+      <div class="w-full text-center text-black text-2xl font-semibold font-['Inter']">Connection</div>
+      <div class="w-full text-center text-black text-sm font-normal font-['Inter']">Vous n'avez pas de compte ? <span class="text-red-600 underline cursor-pointer" (click)="changeForm(1)">Inscrivez vous ici</span></div>
+    </div>
+    <div class="w-full flex justify-around items-center gap-2.5">
+      <div class="flex-1 h-11 px-4 py-2.5 bg-white rounded-md shadow border border-[#d2d5da] flex justify-center items-center gap-5">
+        <img src="../../../assets/googlelco.svg" alt="Google Icon">
+      </div>
+    </div>
+    <div class="w-full relative flex items-center justify-center">
+      <div class="w-full h-0 border border-[#cfcfcf]"></div>
+      <div class="absolute px-2 bg-white text-[#cfcfcf] text-xs font-semibold font-['Inter']">ou</div>
+    </div>
+    <div class="w-full flex flex-col justify-start items-center gap-2.5">
+      <div class="w-full flex flex-col justify-start items-start gap-6">
+        <div class="w-full flex flex-col gap-1">
+          <div class="relative h-12 w-full">
+            <input type="email" required formControlName="email" class="w-full h-full px-4 py-2.5 bg-white rounded-lg shadow border border-[#d2d5da] text-sm text-[#6c727f] font-['Inter']" placeholder="monmail@gmail.com" name="mail" id="mail">
+            <label class="absolute top-[-7px] left-4 bg-white px-1 text-xs font-semibold font-['Inter'] text-[#121826]">Email <span class="text-red-600">*</span></label>
+          </div>
+        </div>
+        <div class="w-full flex flex-col gap-1">
+          <div class="relative h-12 w-full">
+            <input name="password" required formControlName="password" type="password" class="w-full h-full px-4 py-2.5 bg-white rounded-lg shadow border border-[#d2d5da] text-sm text-[#6c727f] font-['Inter']" placeholder="•••••••••••••">
+            <label class="absolute top-[-7px] left-4 bg-white px-1 text-xs font-semibold font-['Inter'] text-[#121826]">Mot de passe <span class="text-red-600">*</span></label>
+          </div>
+        </div>
+      </div>
+      <div class="w-full text-[#e12828] text-sm font-normal font-['Inter'] underline text-right cursor-pointer" (click)="forgetPasswordClick()">Mot de passe oublié</div>
+    </div>
+    <div class="w-full h-12 px-6 py-3 bg-[#e12828] rounded-lg flex justify-center items-center cursor-pointer animeButton">
+      <button class="text-center text-white text-lg w-full font-semibold font-['Inter'] leading-7">Envoyer</button>
+    </div>
+    <p class="text-red-600">{{ errorMsg }}</p>
+  </div>
+</form>
+
+<!-- Forget Password Form -->
+
+<form class="formForget hidden  min-h-[90vh] flex justify-center items-center" [formGroup]="forgetForm" (ngSubmit)="sendFormForget()">
+  <div class="max-w-lg w-full h-auto p-8 bg-white rounded-2xl shadow border-2 border-gray-300 flex flex-col justify-start items-center gap-8 mx-auto md:p-12 md:max-w-md lg:max-w-lg">
+    <div class="w-full flex flex-col justify-start items-center gap-2">
+      <div class="w-full flex flex-col justify-start items-start  gap-6">
+        <div class="w-full flex flex-col justify-start items-center gap-6">
+          <img src="../../../assets/lock.svg" class="w-4/12">
+
+
+          <p class="text-center">Problèmes de connexion ?<br>
+            Entrez votre adresse e-mail et nous vous enverrons un lien pour récupérer votre compte.</p>
+          <div class="relative w-full">
+            <input type="email" required formControlName="email" name="email" placeholder="exemple@email.com" class="w-full h-12 bg-white rounded-lg shadow border border-gray-300 px-4 py-2 text-sm text-gray-700"/>
+            <div class="absolute top-[-0.5rem] left-3 bg-white px-1 text-xs font-semibold text-gray-900">Email <span class="text-red-500">*</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="w-full h-12 px-6 py-3 bg-[#e12828] rounded-lg flex justify-center items-center cursor-pointer animeButton">
+      <button class="text-center text-white text-lg font-semibold font-['Inter'] leading-7">Envoyer</button>
+      <p  class="text-red-600">{{ errorMsg }}</p>
+    </div>
+  </div>
+
+
+</form>

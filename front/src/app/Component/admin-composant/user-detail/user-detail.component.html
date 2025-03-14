@@ -1,0 +1,62 @@
+<div class="container mx-auto overflow-hidden bg-white min-h-screen">
+  <div class="relative bg-white rounded-lg p-6 space-y-6 max-w-full overflow-hidden">
+
+    <div class="absolute top-10 right-4 flex space-x-4">
+      <button (click)="onEditClickUnlock()" class="border-2 border-red-600 text-red-600 px-4 py-2 rounded hover:bg-gray-200 shadow-md">Editer</button>
+      <button *ngIf="showButtonSave" (click)="onCancelEdit()" class="border-2 border-red-600 text-red-600 px-4 py-2 rounded hover:bg-gray-200 shadow-md">Annuler</button>
+      <button (click)="deleteUser()" class="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600 shadow-md">Supprimer</button>
+    </div>
+
+    <div class="flex flex-col gap-2 text-center md:text-left">
+      <h2 class="text-2xl font-semibold">{{ name }}</h2>
+      <p class="text-gray-600">{{ email }}</p>
+    </div>
+
+    <div class="pt-20 flex justify-start">
+      <button (click)="redirectToOrder()" class="bg-red-500 text-white px-6 py-3 rounded hover:bg-red-600 flex items-center space-x-2 shadow-md w-full sm:w-80 justify-center">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+          <path fill="white" d="M21.822 7.431A1 1 0 0 0 21 7H7.333L6.179 4.23A1.994 1.994 0 0 0 4.333 3H2v2h2.333l4.744 11.385A1 1 0 0 0 10 17h8c.417 0 .79-.259.937-.648l3-8a1 1 0 0 0-.115-.921zM17.307 15h-6.64l-2.5-6h11.39l-2.25 6z"/>
+          <circle fill="white" cx="10.5" cy="19.5" r="1.5"/>
+          <circle fill="white" cx="17.5" cy="19.5" r="1.5"/>
+        </svg>
+        <span>Historique des Commandes</span>
+      </button>
+    </div>
+
+    <div class="space-y-4 pt-8">
+      <h4 class="text-lg font-semibold">Identifiants du client</h4>
+      <div class="space-y-4">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+
+          <div>
+            <label for="first_name" class="block mb-2 text-sm font-medium text-gray-900">Nom</label>
+            <input disabled type="text" id="first_name" [(ngModel)]="name" name="firstName"
+                   class="cursor-not-allowed bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2 focus:outline-none focus:ring-2 focus:ring-blue-500" />
+          </div>
+
+          <div>
+            <label for="email" class="block mb-2 text-sm font-medium text-gray-900">Email</label>
+            <input disabled type="email" id="email" [(ngModel)]="email" name="email"
+                   class="cursor-not-allowed bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2 focus:outline-none focus:ring-2 focus:ring-blue-500" />
+          </div>
+
+          <div>
+            <label for="role" class="block mb-2 text-sm font-medium text-gray-900">Rôle</label>
+            <select [(ngModel)]="selectedRole" name="role" id="role" class="cursor-not-allowed bg-gray-50 border border-gray-300 rounded-lg p-2 w-full text-sm" disabled>
+              <option *ngFor="let role of roles" [value]="role.name">{{ role.name }}</option>
+            </select>
+          </div>
+
+        </div>
+      </div>
+
+      <p class="text-red-600">{{ errorMsg }}</p>
+    </div>
+
+    <div *ngIf="showButtonSave" class="mt-6 flex justify-center">
+      <button (click)="updateUserInfo()" class="bg-red-500 text-white px-6 py-3 rounded hover:bg-red-600 flex items-center space-x-2 shadow-md w-full sm:w-80 justify-center">
+        <span>Save</span>
+      </button>
+    </div>
+  </div>
+</div>

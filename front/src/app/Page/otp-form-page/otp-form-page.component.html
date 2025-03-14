@@ -1,0 +1,31 @@
+@if(loading){
+  <div class="w-full h-[90vh] flex items-center justify-center">
+    <mat-spinner color="warn" ></mat-spinner>
+  </div>
+} @else {
+  <div class="flex justify-center flex-col items-center h-screen bg-gray-100">
+    <form (ngSubmit)="onSubmit()" [formGroup]="otpForm" class="bg-white p-6 rounded shadow  w-[22rem] h-48 flex flex-col justify-between">
+      <div class="flex w-full justify-around">
+        <input type="text" #otp1 maxlength="1" formControlName="numberOne" name="otp1" class="w-12 h-12 text-center border border-gray-300 rounded" (input)="onInput($event, otp2)" required>
+        <input type="text" #otp2 maxlength="1" formControlName="numberTwo" name="otp2" class="w-12 h-12 text-center border border-gray-300 rounded" (input)="onInput($event, otp3)" required>
+        <input type="text" #otp3 maxlength="1" formControlName="numberThree" name="otp3" class="w-12 h-12 text-center border border-gray-300 rounded" (input)="onInput($event, otp4)" required>
+        <input type="text" #otp4 maxlength="1" formControlName="numberFour" name="otp4" class="w-12 h-12 text-center border border-gray-300 rounded" (input)="onInput($event, null)" required>
+      </div>
+
+      @if(showResend){
+        <div class="tex-xs   flex justify-center">
+          <p class="text-xs">Code de validation d'email éxpiré  <button class="text-blue-400 underline text-xs" (click)="resendOtp()">Renvoyer</button></p>
+
+        </div>
+      } @else {
+        <div class="text-xs  text-center">
+          Un code de validation vous a été envoyé par mail. <br> Il expirera dans : {{ minutes }}:{{ seconds | number: '2.0' }}
+        </div>
+      }
+
+      <button type="submit" class=" w-full bg-blue-500 text-white py-2 rounded">Submit</button>
+    </form>
+
+    <p class="text-red-600 mt-4">{{ errorMsg }}</p>
+  </div>
+}

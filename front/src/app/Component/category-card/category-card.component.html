@@ -1,0 +1,19 @@
+<div
+  class="bg-white p-4 rounded-lg w-[15vw] h-[28vh] flex items-center flex-col shadow-sm transition-transform duration-300 hover:scale-125 hover:shadow-lg cursor-pointer relative"
+  (mouseenter)="onMouseEnter(products.id)"
+  (mouseleave)="onMouseLeft()"
+  [routerLink]="['/categorie', products?.id]"
+  [ngStyle]="{ 'z-index': (hoveredItem === products.id || clicked) ? 100 : 1 }"
+>
+<img class="w-full object-contain h-[17vh] rounded-md" [src]="products?.fileUpload.file" />
+
+<div class="flex w-full justify-center items-center">
+  <h1 class="text-xl font-medium text-gray-700 mt-2">{{ products?.name }}</h1>
+</div>
+
+<div *ngIf="hoveredItem === products.id || clicked" class="absolute left-0 right-0 top-[94%] bg-white shadow-lg mt-2 z-10 rounded-b-lg pb-2">
+  <ng-container *ngFor="let item of allSubCategory">
+    <app-sous-category-card [products]="item"></app-sous-category-card>
+  </ng-container>
+</div>
+</div>

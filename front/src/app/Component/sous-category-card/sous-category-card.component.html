@@ -1,0 +1,3 @@
+<div (click)="$event.stopPropagation() ">
+  <h2 class="w-full font-medium pl-4 pb-1 hover:text-red-500" [routerLink]="['/categorie/sous-categorie', products.name, products.id]">{{products.name}}</h2>
+</div>

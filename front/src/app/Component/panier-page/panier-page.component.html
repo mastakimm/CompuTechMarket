@@ -1,0 +1,30 @@
+<div class="mt-8 flex flex-col items-center">
+  <div *ngIf="(items$ | async) as items" class="w-full flex flex-col items-center">
+    <div *ngIf="items.length === 0" class="flex flex-col justify-center items-center">
+      <h1 class="text-2xl font-medium text-gray-800">Votre panier est vide. Aucun hamster trouvé.</h1>
+      <img class="w-80 h-80" src="../../../assets/hamster.png">
+    </div>
+    <div *ngIf="items.length > 0" class="w-full flex flex-col items-center">
+      <h1 class="text-start w-10/12 font-semibold mb-4 text-2xl text-gray-800">Votre panier</h1>
+      <div class="overflow-x-scroll bg-white shadow-lg gap-y-4 h-[60vh] w-10/12 px-6 py-4 border border-gray-200 rounded-lg">
+        <ng-container *ngFor="let item of items; trackBy: trackByFn">
+          <app-panier-card [products]="item"></app-panier-card>
+        </ng-container>
+      </div>
+      <div class="w-10/12 flex flex-col items-end">
+        <div class="flex justify-around mt-5 w-fit">
+          <div></div>
+          <h1 class="rounded shadow-md py-2 px-10 text-xl font-medium bg-white">Sous-Total HT ({{ totalArticle}}
+            @if(totalArticle===1){
+              article)
+            }@else{
+              articles)
+            } : {{ total }}€</h1>
+        </div>
+        <div class="flex justify-center w-fit items-center mt-5 mb-5 cursor-pointer" (click)="redirectPaiement()">
+          <h1 class="rounded font-medium px-10 py-2  text-center bg-red-500 text-white">Commandez</h1>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

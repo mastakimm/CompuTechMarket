@@ -1,0 +1,33 @@
+<div class="relative">
+
+  <input
+    (input)="searchByName($event)"
+    (keyup.enter)="redirectArticle(null, $event)"
+    #searchInput id="search-bar"
+    type="text"
+    placeholder="Rechercher un produit"
+    class="w-full pl-10 pr-4 py-2 bg-white border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 shadow-sm rounded-md"
+  >
+
+  <svg class="absolute left-3 top-2 h-5 w-5 text-gray-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-4.35-4.35m-3.65 3.65A7.5 7.5 0 1115 7.5a7.5 7.5 0 01-7.5 7.5"/>
+  </svg>
+
+  <div
+    *ngIf="searchResults.length > 0"
+    class="absolute top-full w-11/12 bg-white border border-gray-300 rounded shadow-lg mt-1 z-10"
+    (click)="$event.stopPropagation()"
+  >
+
+    <ul>
+      <li
+        *ngFor="let result of searchResults"
+        class="p-2 border-b border-gray-300 hover:bg-gray-100 cursor-pointer"
+        (click)="redirectArticle(result.id, null)"
+      >
+        {{ result.name }}
+      </li>
+    </ul>
+
+  </div>
+</div>

@@ -1,0 +1,8 @@
+th.mat-column-lastDeliveryDate,
+td.mat-column-lastDeliveryDate {
+  text-align: left;
+}
+
+::ng-deep .mat-sort-header-content {
+  text-align: left !important;
+}

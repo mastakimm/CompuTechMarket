@@ -1,0 +1,92 @@
+@if(isLoading){
+  <div class="flex items-center justify-center w-full min-h-[78vh]">
+    <mat-spinner color="warn" ></mat-spinner>
+  </div>
+}
+@else{
+  <div class="w-full h-[78vh] flex justify-center items-center">
+    <div class="flex flex-col md:flex-row justify-center items-center space-y-8 md:space-y-0 md:space-x-8">
+      <div>
+        <div class="max-w-2xl bg-white p-8 rounded-lg shadow-md">
+          <h2 class="text-xl font-semibold text-gray-800 mb-6">Ajouter une carte et l’enregistrer pour mes prochains achats</h2>
+          <form [formGroup]="cardForm" (ngSubmit)="onSubmit()">
+            <div class="mb-4">
+              <div class="mb-2">
+                <label for="cardName" class="text-sm font-medium text-gray-700 mb-1">Nom sur la carte</label>
+                <input id="cardName" formControlName="cardName" type="text" class="form-control w-5/12 px-1 py-1 border border-gray-300 rounded-md">
+              </div>
+              <label class="block text-sm font-medium text-gray-700 mb-1">Informations de la carte</label>
+              <div id="card-element" class="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-red-500 focus:border-red-500"></div>
+              <div id="card-errors" role="alert" class="text-red-500 mt-2"></div>
+            </div>
+
+            <div class="flex items-center justify-between">
+              <button type="submit" class="px-6 py-2 bg-red-500 text-white font-semibold rounded-md hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2">
+                Ajouter votre carte
+              </button>
+              <button (click)="redirectBack()" type="button" class="px-6 py-2 bg-gray-200 text-gray-700 font-semibold rounded-md hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-gray-300 focus:ring-offset-2">
+                Annuler
+              </button>
+            </div>
+          </form>
+        </div>
+        <button class="text-red-500 border-red-500 px-4 py-1 rounded-md border transition-transform hover:scale-105 mt-4" (click)="redirectBack()">Retour</button>
+      </div>
+
+
+      <div class="relative w-96 mx-auto overflow-hidden">
+        <!-- Conteneur du carrousel -->
+        <div class="flex transition-transform duration-300 ease-in-out" [style.transform]="transformStyle">
+          <!-- Boucle sur les cartes -->
+          <div *ngFor="let card of cards" class="w-full flex-shrink-0">
+
+            <div class="stacked-card relative">
+              <div class="card-container bg-red-100 w-96 h-56 rounded-xl text-white  mx-auto">
+                <img class="relative object-cover w-full h-full rounded-xl" src="https://i.imgur.com/kGkSg1v.png">
+                <div class="w-full px-8 py-3 absolute top-0 flex flex-col justify-between h-full">
+                  <div class="flex justify-between">
+                    <div>
+                      <p class="font-medium tracking-widest text-xl">{{ actualUser.displayName }}</p>
+                    </div>
+                    <h1 class="font-bold text-2xl">{{ card.cardBrand }}</h1>
+                  </div>
+                  <div class="flex flex-rom justify-between items-center">
+                    <div class="flex gap-4 items-center">
+                      <img src="../../../../assets/sansContact.png" class="object-contain h-11">
+                      <img src="../../../../assets/pucepng" class="object-contain h-11">
+                    </div>
+                    <div>
+                      @if(card.isActive){
+                        <p class="px-2 py-1 bg-red-500 font-bold text-white rounded">Carte par défaut</p>
+                      }@else{
+                        <p class="px-2 py-1 cursor-pointer border-2 border-red-500 font-bold text-white rounded" (click)="changeActiveCard(card.stripeCardId)">Utiliser cette carte</p>
+                      }
+                    </div>
+                  </div>
+                  <div class="pt-1">
+                    <p class="font-light">Card Number</p>
+                    <p class="font-medium tracking-more-wider text-xl">****  ****  ****  {{ card.last4 }}</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- Points de pagination -->
+        <div class="flex justify-center mt-4 space-x-2">
+          <div
+            *ngFor="let card of cards; let i = index"
+            class="w-3 h-3 rounded-full cursor-pointer"
+            [class.bg-gray-500]="currentIndex !== i"
+            [class.bg-blue-500]="currentIndex === i"
+            (click)="goToSlide(i)">
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+}

@@ -1,0 +1,128 @@
+<div class="w-full min-h-[76vh] mb-4 flex pt-10 items-center flex-col">
+  <div class="text-center flex flex-row justify-between w-10/12">
+    <div class="flex flex-col">
+      <h2 class="text-2xl w-fit font-semibold">{{user.displayName}}</h2>
+    </div>
+    <div>
+      <button
+        class="mt-4 px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600"
+        (click)="editProfile()"
+      >
+        {{ isEditing ? 'Sauvegarder' : 'Modifier' }}
+      </button>
+      <button class="mt-4 px-4 py-2 bg-white text-red-500 border border-red-500 rounded hover:bg-gray-100 ml-1" (click)="unlog()">
+        Déconexion
+      </button>
+    </div>
+  </div>
+
+  <div class="mt-6 grid grid-cols-1 gap-4 md:grid-cols-2 w-10/12">
+    <div>
+      <label class="block text-sm font-medium text-gray-700">Nom</label>
+      <input
+        type="text"
+        class="mt-1 p-2 w-full border border-gray-300 rounded"
+        placeholder="Votre nom"
+        [(ngModel)]="user.displayName"
+        [disabled]="!isEditing"
+        [ngClass]="isEditing ? 'bg-white' : 'bg-gray-100'"
+      />
+    </div>
+    <div>
+      <label class="block text-sm font-medium text-gray-700">Email</label>
+      <input
+        type="email"
+        class="mt-1 p-2 w-full border border-gray-300 rounded"
+        placeholder="Votre email"
+        [(ngModel)]="user.email"
+        [disabled]="!isEditing"
+        [ngClass]="isEditing ? 'bg-white' : 'bg-gray-100'"
+      />
+    </div>
+    <div>
+      <label class="block text-sm font-medium text-gray-700">Nouveau mot de passe</label>
+      <input
+        type="password"
+        class="mt-1 p-2 w-full border border-gray-300 rounded"
+        placeholder="Votre mot de passe"
+        [(ngModel)]="user.password"
+        [disabled]="!isEditing"
+        [ngClass]="isEditing ? 'bg-white' : 'bg-gray-100'"
+      />
+    </div>
+    <div>
+      <label class="block text-sm font-medium text-gray-700">Confirmer le nouveau mot de passe</label>
+      <input
+        type="password"
+        class="mt-1 p-2 w-full border border-gray-300 rounded"
+        placeholder="Confirmer le mot de passe"
+        [(ngModel)]="confirmPassword"
+        [disabled]="!isEditing"
+        [ngClass]="isEditing ? 'bg-white' : 'bg-gray-100'"
+      />
+    </div>
+  </div>
+
+  <div class="p-4 pt-12 w-8/12">
+    <mat-divider class="border"></mat-divider>
+  </div>
+
+  <div class="mt-6 w-10/12">
+    <h3 class="text-lg font-semibold mb-4">Adresse de livraison</h3>
+
+    <div class="grid grid-cols-1 gap-6 md:grid-cols-3 lg:grid-cols-4">
+
+      <div
+        *ngFor="let profile of user.userProfile"
+        (click)="redirectToEditAdress(profile.id)"
+        class="relative bg-white border border-gray-300 rounded-xl p-6 shadow-sm hover:shadow-md transition-transform transform hover:scale-105 cursor-pointer"
+        [ngClass]="{
+        'border-red-500': profile.isActive,
+        'border-gray-300': !profile.isActive
+      }"
+      >
+        <div class="absolute top-4 right-4">
+        <span
+          class="text-xs font-medium inline-flex items-center px-2.5 py-0.5 rounded-full"
+          [ngClass]="profile.isActive ? 'bg-red-100 text-red-800' : 'bg-gray-100 text-gray-800'"
+        >
+          {{ profile.isActive ? 'Active' : 'Inactive' }}
+        </span>
+        </div>
+        <div class="mb-4">
+          <svg class="w-6 h-6 text-gray-400 inline-block" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5h18M9 3v2M15 3v2M4 7h16l1 12H3l1-12z"></path>
+          </svg>
+          <h4 class="text-lg font-semibold inline-block ml-2">Adresse</h4>
+        </div>
+        <p class="text-gray-600"><strong>Adresse:</strong> {{ profile.address }}</p>
+        <p class="text-gray-600"><strong>Facturation:</strong> {{ profile.billing_address }}</p>
+        <p class="text-gray-600"><strong>Code postal:</strong> {{ profile.zipcode }}</p>
+        <p class="text-gray-600"><strong>Pays:</strong> {{ profile.country }}</p>
+      </div>
+
+      <div
+        class="flex items-center justify-center bg-white border-2 border-dashed border-gray-300 rounded-xl p-6 shadow-sm hover:shadow-md transition-transform transform hover:scale-105 cursor-pointer"
+        (click)="redirectToCreateNewAddress()"
+      >
+        <div class="text-center">
+          <svg class="w-10 h-10 text-gray-400 mb-2 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path>
+          </svg>
+          <p class="text-gray-500 text-lg font-medium">Ajouter une nouvelle adresse</p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+
+  <div class="mt-6 flex justify-between w-10/12 pt-10">
+    <button class="px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600 w-[49%]" (click)="historiqueRedirect()">
+      <i class="fas fa-shopping-cart"></i> Vos commandes
+    </button>
+    <button class="px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600 w-[49%]" (click)="paiementModeRedirect()">
+      <i class="fas fa-credit-card"></i> Vos modes de paiements
+    </button>
+  </div>
+</div>

@@ -1,0 +1,48 @@
+<div class="bg-gray-100 px-4 sm:px-8 py-4 min-h-screen">
+  <div class="flex flex-col sm:flex-row justify-between items-center p-4">
+    <h1 class="text-xl sm:text-2xl font-bold mb-4 sm:mb-0">Frais de livraison</h1>
+    <button
+      (click)="redirectNewCountry()"
+      class="bg-red-500 text-white w-full sm:w-auto sm:px-6 sm:py-3 px-4 py-2 rounded hover:bg-red-600 flex items-center justify-center shadow-md"
+    >
+      <span>Ajouter un pays livrable</span>
+    </button>
+  </div>
+
+  <div class="mt-8 px-4">
+    <div class="mb-4">
+      <label for="countryName" class="block text-gray-700 font-semibold pb-2">Sélectionner un pays livrable</label>
+      <select id="countryName" class="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+              (change)="onCountrySelect($event)">
+        <option value="">Sélectionner un pays</option>
+        <option *ngFor="let country of countries" [value]="country.id">{{ country.name | titlecase }}</option>
+      </select>
+    </div>
+
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mt-8">
+      <div *ngFor="let paymentMethod of alwaysVisiblePaymentMethods"
+           class="relative p-20 rounded-lg shadow-lg"
+           [ngClass]="paymentMethod.authorized ? 'bg-white' : 'bg-gray-300'"
+           [ngStyle]="{'background-image': 'url(assets/images/' + paymentMethod.name.toLowerCase().replace(' ', '-') + '-background.jpg)',
+                   'background-size': 'cover',
+                   'background-position': 'center',
+                   'background-repeat': 'no-repeat'}">
+        <div class="absolute bottom-4 right-4 flex space-x-4">
+          <button *ngIf="selectedCountryId && !paymentMethod.authorized"
+                  [ngStyle]="{'background-color': 'rgba(255, 255, 255, 0.3)'}"
+                  class="px-4 py-1 font-semibold rounded border-2 border-red-500 hover:bg-opacity-10"
+                  (click)="authorizePaymentMethod(paymentMethod.name)">
+            Autoriser
+          </button>
+
+          <button *ngIf="selectedCountryId && paymentMethod.authorized"
+                  class="px-4 py-1 font-semibold rounded border-2 border-red-600 hover:bg-opacity-10"
+                  [ngStyle]="{'background-color': 'rgba(255, 255, 255, 0.3)'}"
+                  (click)="deletePaymentMethod(paymentMethod.name)">
+            Désactiver
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

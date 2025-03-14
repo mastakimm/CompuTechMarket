@@ -1,0 +1,125 @@
+<div class="space-y-4 pt-10" [formGroup]="productForm">
+
+
+
+  <div class="flex flex-col">
+    <div class="flex  w-12/12 justify-center">
+
+      <div class="w-10/12 flex flex-col items-center">
+        <div class="w-full flex">
+          @if(!productId){
+            <h1 class="text-2xl font-semibold">Mettre le produit {{ product.name }} en promotion</h1>
+          }@else{
+            <h1 class="text-2xl font-semibold">Mettre à jour le produit {{ product.name }} en promotion</h1>
+          }
+        </div>
+
+        <div class="w-full flex justify-center items-center text-black">
+          <div class="w-full">
+            <div [ngClass]="{'hidden': productId}">
+              <label for="started_at" class="block mb-2 mt-4 text-sm font-medium text-gray-900">Sélectionez un produit</label>
+                <input id="search-bar" (input)="searchByName($event)"  class="bg-gray-50 border border-gray-400 text-gray-900 text-sm rounded-lg block w-full p-2 focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="Que cherchez vous ?">
+              </div>
+
+
+            <div *ngIf="searchResults.length > 0" class="absolute w-4/12 bg-white border border-gray-300 rounded shadow-lg z-10" (click)="$event.stopPropagation()">
+              <ul>
+                <li *ngFor="let result of searchResults" class="p-2 border-b border-gray-300 hover:bg-gray-100 cursor-pointer" (click)="clickOnProduct(result)">
+                  <div class="w-full flex flex-row justify-between">
+                    <img class="w-1/12 object-contain p-2" src="{{result.files?.[0].file}}" />
+                    <div class="flex w-6/12 flex-col justify-start">
+                      <p> {{ result.name }}</p>
+                      @if (result.quantity>0){
+                        <p class="text-green-500">En stock</p>
+                      }
+                    </div>
+                    <p class="w-2/12 flex justify-center items-start">{{result.price}}€</p>
+
+                  </div>
+
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <div class="w-full">
+          <label for="started_at" class="block mb-2 mt-4 text-sm font-medium text-gray-900">Date et heure de début</label>
+          <input type="datetime-local" [value]="productId ? null : null" id="started_at" formControlName="started_at" class="bg-gray-50 border border-gray-400 text-gray-900 text-sm rounded-lg block w-full p-2 focus:outline-none focus:ring-2 focus:ring-blue-500" />
+        </div>
+
+        <div class="w-full">
+          <label for="promotion" class="block mb-2 mt-4 text-sm font-medium text-gray-900">Pourcentage de la promotion (%)</label>
+          <input (input)="setNewPrice()" type="text" id="promotion" formControlName="promotion" class="bg-gray-50 border border-gray-400 text-gray-900 text-sm rounded-lg block w-full p-2 focus:outline-none focus:ring-2 focus:ring-blue-500" />
+        </div>
+
+          <div class="w-full">
+            <label for="current_price" class="block mb-2 mt-4 text-sm font-medium text-gray-900">Stock voulu sous promotion</label>
+            <input type="text" id="current_price" formControlName="stock" class="bg-gray-50 border border-gray-400 text-gray-900 text-sm rounded-lg block w-full p-2 focus:outline-none focus:ring-2 focus:ring-blue-500" value="{{  productForm.get('stock')?.value }}" />
+          </div>
+
+
+        <div class="w-full">
+          <label for="end_at" class="block mb-2 mt-4 text-sm font-medium text-gray-900">Date et heure de fin</label>
+          <input type="datetime-local" id="end_at" formControlName="end_at" class="bg-gray-50 border border-gray-400 text-gray-900 text-sm rounded-lg block w-full p-2 focus:outline-none focus:ring-2 focus:ring-blue-500" />
+        </div>
+
+
+
+        <div class="w-full gap-2 flex flex-col">
+
+          @if (selectedProducts.length > 0){
+            <label for="started_at" class="block mt-4 text-sm font-medium text-gray-900">
+              @if(selectedProducts.length === 1){
+                Produit sélectionné
+              }@else{
+                Produits sélectionnées
+              }
+            </label>
+          }
+
+          <li *ngFor="let selectedProduct of selectedProducts, let i = index" class="p-2 border rounded-lg  border-gray-300 hover:bg-gray-100 cursor-pointer" >
+            <div class="w-full flex flex-row justify-between">
+              <img class="w-1/12 object-contain p-2" src="{{selectedProduct.files?.[0].file}}" />
+              <div class="flex w-6/12 flex-col justify-start">
+                <p> {{ selectedProduct.name }}</p>
+                @if (selectedProduct.quantity>0){
+                  <p class="text-green-500">En stock</p>
+                }
+              </div>
+
+              <p class="w-2/12 flex justify-center items-start">{{selectedProduct.price}}€</p>
+              <p class="w-2/12 flex justify-center items-start">En promo : {{newProductsValue[i].price}}€</p>
+            </div>
+
+          </li>
+
+
+        </div>
+
+
+
+        <div class="w-full">
+          <button id="edit-btn" (click)="submitForm()" class="bg-red-500 text-white px-6 py-3 rounded hover:bg-red-600  shadow-md mt-8">
+            {{ promotionId ? 'Update Promotion' : 'Appliquer la promotion' }}
+          </button>
+        </div>
+
+
+      </div>
+
+    </div>
+
+
+
+
+
+
+
+
+  </div>
+
+
+
+
+</div>

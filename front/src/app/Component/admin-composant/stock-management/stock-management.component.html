@@ -1,0 +1,117 @@
+<div class="bg-gray-100 px-4 sm:px-8 py-6 min-h-screen">
+  <div class="flex flex-col space-y-6">
+
+    <div class="flex flex-col sm:flex-row justify-between items-center p-4">
+      <h1 class="text-xl sm:text-2xl font-semibold mb-4 sm:mb-0">{{ product.name }}</h1>
+      <button
+        (click)="redirectToCreateNewDelivery(productId)"
+        class="bg-red-500 text-white w-full sm:w-auto sm:px-6 sm:py-3 px-4 py-2 rounded hover:bg-red-600 flex items-center justify-center shadow-md"
+      >
+        <span>Ajouter une entrée en stock</span>
+      </button>
+    </div>
+
+    <div class="grid grid-cols-1 lg:grid-cols-1 gap-6 items-start">
+      <div class="flex flex-col sm:flex-row justify-start items-start space-x-4">
+        <div class="rounded-lg p-4 h-40 sm:h-64 flex-shrink-0 bg-white">
+          <img *ngIf="product.files?.[0].file" [src]="product.files?.[0].file" alt="Product Image" class="object-contain h-full w-40 sm:w-48">
+        </div>
+
+        <div class="space-y-3 sm:space-y-5 p-4 flex flex-col justify-start">
+          <p class="text-base sm:text-lg font-semibold">Modèle :
+            <span class="pl-2 font-normal text-sm sm:text-base">{{ product.model }}</span>
+          </p>
+          <p class="text-base sm:text-lg font-semibold">Fabricant :
+            <span class="pl-2 font-normal text-sm sm:text-base">{{ product.manufacturer }}</span>
+          </p>
+          <p class="text-base sm:text-lg font-semibold text-gray-600">Couleur :
+            <span class="inline-block w-6 h-6 rounded-full border border-gray-400" [style.backgroundColor]="product.color"></span>
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <h4 class="text-lg font-semibold mb-4">Détail du stock actuel:</h4>
+    <table class="min-w-full bg-white border border-gray-300">
+      <thead>
+      <tr class="w-full bg-gray-200 text-gray-700">
+        <th class="px-4 py-2">Fournisseur</th>
+        <th class="px-4 py-2">Date de réapprovisionnement</th>
+        <th class="px-4 py-2">Quantité</th>
+        <th class="px-4 py-2">Prix d'achat</th>
+        <th class="px-4 py-2">Prix de vente</th>
+        <th class="px-4 py-2">Actions</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let history of productHistory; let i = index" class="border-t border-gray-200 text-center">
+        <td class="px-4 py-2">
+          <ng-container *ngIf="editedRow !== i; else editSupplier">
+            {{ history.supplier }}
+          </ng-container>
+          <ng-template #editSupplier>
+            <input [(ngModel)]="history.supplier" class="border rounded-md px-2 py-1 w-full">
+          </ng-template>
+        </td>
+        <td class="px-4 py-2">
+          <ng-container *ngIf="editedRow !== i; else editDate">
+            {{ history.refillDate | date: 'dd-MM-yyyy' }}
+          </ng-container>
+          <ng-template #editDate>
+            <input type="date" [(ngModel)]="history.refillDate" class="border rounded-md px-2 py-1 w-full">
+          </ng-template>
+        </td>
+        <td class="px-4 py-2">
+          <ng-container *ngIf="editedRow !== i; else editQuantity">
+            {{ history.quantity }}
+          </ng-container>
+          <ng-template #editQuantity>
+            <input type="number" [(ngModel)]="history.quantity" class="border rounded-md px-2 py-1 w-full">
+          </ng-template>
+        </td>
+        <td class="px-4 py-2">
+          <ng-container *ngIf="editedRow !== i; else editPurchasePrice">
+            {{ history.purchasePrice | currency:'EUR':'symbol':'1.2-2' }}
+          </ng-container>
+          <ng-template #editPurchasePrice>
+            <input type="number" [(ngModel)]="history.purchasePrice" class="border rounded-md px-2 py-1 w-full">
+          </ng-template>
+        </td>
+        <td class="px-4 py-2">
+          <ng-container *ngIf="editedRow !== i; else editSellingPrice">
+            {{ history.sellingPrice | currency:'EUR':'symbol':'1.2-2' }}
+          </ng-container>
+          <ng-template #editSellingPrice>
+            <input type="number" [(ngModel)]="history.sellingPrice" class="border rounded-md px-2 py-1 w-full">
+          </ng-template>
+        </td>
+        <td class="px-4 py-2 flex justify-center space-x-2">
+          <ng-container *ngIf="editedRow !== i; else saveButton">
+            <span class="text-blue-600 hover:cursor-pointer" (click)="onEditRow(i)">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+                <path stroke-linecap="round" stroke-linejoin="round" d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L10.582 16.07a4.5 4.5 0 0 1-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 0 1 1.13-1.897l8.932-8.931Zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0 1 15.75 21H5.25A2.25 2.25 0 0 1 3 18.75V8.25A2.25 2.25 0 0 1 5.25 6H10" />
+              </svg>
+            </span>
+          </ng-container>
+
+          <ng-container *ngIf="editedRow !== i">
+            <span class="pl-2 text-red-600 hover:cursor-pointer" (click)="onDeleteRow(i)">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12" />
+              </svg>
+            </span>
+          </ng-container>
+          <ng-template #saveButton>
+            <button (click)="onSaveRow(i)" class="bg-green-600 text-white px-2 py-1 rounded">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+                <path stroke-linecap="round" stroke-linejoin="round" d="m4.5 12.75 6 6 9-13.5" />
+              </svg>
+            </button>
+            <button (click)="onCancelEdit()" class="ml-2 bg-red-600 text-white px-2 py-1 rounded">Annuler</button>
+          </ng-template>
+        </td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

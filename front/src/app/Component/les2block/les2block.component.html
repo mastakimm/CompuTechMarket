@@ -1,0 +1,120 @@
+
+
+@if(loading){
+
+  <app-skeleton-les2-block></app-skeleton-les2-block>
+
+} @else {
+
+  <!-- FIRST BLOCK-->
+  <div class="flex w-full flex-col items-center">
+  <div *ngIf="promoProduct" class="flex w-full items-center gap-4 mt-16 ">
+    <div class="w-[140%] bg-black text-white rounded-lg p-10 flex ">
+      <div class="w-6/12">
+        <h1 class="font-medium tracking-wide px-6 pt-6 text-6xl">Vente flash</h1>
+        <h1 class="font-medium tracking-wide px-6 pt-6 text-4xl">{{ promoProduct.name }}</h1>
+
+        <h2 class="mt-6 text-2xl px-6">{{ promoProduct.quantity }}
+          @if(promoProduct.quantity===1){
+            Restant
+          }@else{
+            Restants
+          }
+        </h2>
+        <h1 class="text-3xl px-6 mt-6">{{ promoProduct.price }}€</h1>
+
+        <button (click)="redirectVenteFlash()" id="button" class="mt-8 border-2 px-3 py-1 border-red-600 mx-6 text-2xl rounded-lg flex">Profitez de l'offre<img class="ml-2" src="../../../assets/fleche.svg"></button>
+      </div>
+      <div class="flex flex-col w-6/12 h-[25rem] justify-around">
+        <img class="w-full object-contain h-full" src="{{promoProduct.files?.[0].file}}">
+      </div>
+    </div>
+    <div class="flex flex-col gap-4 justify-center items-center h-full w-full">
+      <h1 class="text-4xl">Cette offre expire bientôt !</h1>
+      <div class="grid auto-cols-max grid-flow-col gap-5 text-center">
+        <div class="bg-neutral rounded-box text-neutral-content flex flex-col p-2">
+          <span class="countdown font-mono text-5xl">
+            <span [ngStyle]="{'--value': days}"></span>
+          </span>
+          @if(days <= 1){
+            jour
+          } @else {
+            jours
+          }
+
+        </div>
+        <div class="bg-neutral rounded-box text-neutral-content flex flex-col p-2">
+          <span class="countdown font-mono text-5xl">
+            <span [ngStyle]="{'--value': hours}"></span>
+          </span>
+          @if(hours<=1){
+            heure
+          } @else {
+            heures
+          }
+        </div>
+        <div class="bg-neutral rounded-box text-neutral-content flex flex-col p-2">
+          <span class="countdown font-mono text-5xl">
+            <span [ngStyle]="{'--value': minutes}"></span>
+          </span>
+          min
+        </div>
+        <div class="bg-neutral rounded-box text-neutral-content flex flex-col p-2">
+          <span class="countdown font-mono text-5xl">
+            <span [ngStyle]="{'--value': seconds}"></span>
+          </span>
+          sec
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+
+
+  <!-- SECOND BLOCK-->
+
+  <div class="flex w-full items-center gap-4 mt-16 rounded" *ngIf="popularProducts.length > 0 && popularProducts[0][firstMostViewed]">
+    <div class="w-full bg-black text-white rounded-lg p-10 flex justify-between">
+      <div class="flex flex-col items-start justify-between w-5/12">
+        <h2 class="text-bold text-xl">Notre produit le plus consulté :</h2>
+        <h1 class="text-4xl mt-2 mb-2">{{ popularProducts[0][firstMostViewed].product.name }}</h1>
+        <p class="text-justify">{{ popularProducts[0][firstMostViewed].product.description }}</p>
+        <p class="font-bold pt-2 pb-2">Visité plus de {{ popularProducts[0][firstMostViewed].count }} fois</p>
+        <button class="border-2 text-white  rounded-lg p-1 cursor-pointer px-4 border-red-600 transition-transform hover:scale-105" (click)="redirectCategories()">découvrir nos PC</button>
+      </div>
+      <div class="flex items-center justify-center w-3/12">
+        <img class="h-[30vh] object-contain" src="{{popularProducts[0][firstMostViewed].product.files?.[0].file}}">
+      </div>
+      <div class="flex flex-col items-start w-3/12">
+        <div class="flex flex-col gap-4">
+
+
+          <h1 class="text-3xl">
+            Il ne reste que {{ popularProducts[0][firstMostViewed].product.quantity}}
+
+            @if(popularProducts[0][firstMostViewed].product.quantity===1){
+              produit
+            }@else{
+              produits
+            }
+            en stock !</h1>
+
+          <h1 class="text-3xl">{{ popularProducts[0][firstMostViewed].product.price }}€</h1>
+
+        </div>
+        <div class="flex flex-col mt-4">
+          <div class="mt-10 flex items-center">
+            <app-buy-button class="mt-5 mr-2" [productDate]="popularProducts[0][firstMostViewed].product.id" (click)="$event.stopPropagation()"></app-buy-button>
+            <button class="border-2 mt-5 text-white border-black rounded-lg p-1 cursor-pointer p-2 border-red-600 transition-transform hover:scale-105" (click)="redirectToProduct()">Détails du produit</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+}
+
+
+

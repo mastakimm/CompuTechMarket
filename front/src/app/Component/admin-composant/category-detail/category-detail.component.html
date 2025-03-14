@@ -1,0 +1,112 @@
+<div class="bg-gray-100 px-8 py-4 min-h-screen">
+  <div class="flex w-full justify-between items-center p-4">
+    <div class="flex items-center">
+      <h3 class="text-3xl font-bold" *ngIf="!editCategoryMode">{{ categoryName }}</h3>
+      <h3 *ngIf="editCategoryMode" class="text-3xl font-bold"> {{ categoryName }}  </h3>
+
+      <div class="pl-10">
+        <button (click)="toggleEditCategoryMode()" class="text-red-600 border-2 border-red-600 px-6 py-3 rounded justify-center hover:bg-gray-200 flex items-center space-x-2 shadow-md">
+          Editer
+        </button>
+      </div>
+
+      <div class="pl-4">
+        <button (click)="deleteCategory()" class="bg-red-500 text-white px-6 py-3 rounded justify-center hover:bg-red-600 flex items-center space-x-2 shadow-md">
+          Supprimer
+        </button>
+      </div>
+
+    </div>
+
+    <button
+      (click)="redirectNewSubCategorie(categoryId)"
+      class="bg-red-500 text-white px-6 py-3 rounded w-1/6 justify-center hover:bg-red-600 flex items-center space-x-2 shadow-md"
+    >
+      <span>Ajouter une sous-catégorie</span>
+    </button>
+  </div>
+
+
+  <div *ngIf="editCategoryMode" class="p-4 mt-4 rounded">
+    <h3 class="text-xl font-semibold">Éditer la catégorie</h3>
+    <form (ngSubmit)="saveCategoryName()">
+      <div class="mb-4">
+        <label class="block font-semibold text-gray-700 pt-4">Nom de la catégorie:</label>
+        <input [(ngModel)]="categoryName" name="categoryName" class="w-full p-2 border rounded" type="text" />
+      </div>
+
+
+
+      <div class="mb-4">
+        <h4 class="text-lg font-semibold">Image de la catégorie</h4>
+        <label class="w-full h-11 border-2 border-gray-400 font-semibold rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 file:mr-4 file:py-4 file:px-4 file:w-full file:border-0 file:text-sm file:font-semibold file:bg-white file:text-gray-500 hover:file:bg-gray-200 cursor-pointer flex items-center justify-center">
+          <input type="file" (change)="onFileSelected($event)" class="hidden" />
+          Selectionné un fichier
+        </label>
+        <div *ngIf="imagePreview" class="mt-4">
+          <img [src]="imagePreview" alt="Preview" class="w-48 h-48 object-cover mt-2 border" />
+        </div>
+      </div>
+
+      <div class="flex justify-start pt-6">
+        <button type="submit" class="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600" [disabled]="!categoryName">
+          Enregistrer
+        </button>
+      </div>
+
+    </form>
+  </div>
+
+  <div class="p-8 pt-12">
+    <mat-divider></mat-divider>
+  </div>
+
+  <div class="p-4">
+    <h3 *ngIf="dataSource.length <= 1" class="pt-4 text-xl font-semibold">Sous-catégorie</h3>
+    <h3 *ngIf="dataSource.length > 1" class="pt-4 text-xl font-semibold">Sous-catégories</h3>
+
+  </div>
+
+  <div class="flex flex-wrap gap-4 px-4">
+    <div
+      *ngFor="let subCategorie of dataSource"
+      (click)="editSubCategory(subCategorie)"
+      class="relative w-48 h-20 rounded-md shadow-lg overflow-hidden cursor-pointer border-2"
+      [ngClass]="{
+        'border-red-500 bg-red-500 text-gray-100 shadow-md': selectedSubCategoryId === subCategorie.id,
+        'border-red-500 bg-white hover:bg-gray-100': selectedSubCategoryId !== subCategorie.id
+      }"
+    >
+      <div class="absolute inset-0 bg-opacity-50 flex items-center justify-center">
+        <h2 class="text-lg">{{ subCategorie.name }}</h2>
+      </div>
+      <button
+        class="absolute top-2 right-2 bg-transparent text-red-600 hover:text-red-800"
+        (click)="deleteSubCategory(subCategorie.id, $event)"
+      >
+        <i class="fas fa-trash"></i>
+      </button>
+    </div>
+  </div>
+
+  <div *ngIf="editFormVisible" class="p-4 mt-4 bg-red rounded">
+    <h3 class="text-xl font-semibold">Éditer la sous-catégorie</h3>
+    <form [formGroup]="subCategoryForm" (ngSubmit)="onSubmit()">
+      <div class="mb-4">
+        <label class="block font-semibold text-gray-700 pt-4">Nom de la sous-catégorie:</label>
+        <input formControlName="name" class="w-full p-2 border rounded" type="text" />
+        <div *ngIf="subCategoryForm.get('name')?.errors?.['minlength'] && subCategoryForm.get('name')?.touched" class="text-red-500">
+          Le nom doit avoir au moins 3 caractères.
+        </div>
+        <div *ngIf="subCategoryForm.get('name')?.errors?.['maxlength'] && subCategoryForm.get('name')?.touched" class="text-red-500">
+          Le nom ne doit pas dépasser 15 caractères.
+        </div>
+      </div>
+      <div class="flex justify-start">
+        <button type="submit" class="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600" [disabled]="subCategoryForm.invalid">
+          Enregistrer
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

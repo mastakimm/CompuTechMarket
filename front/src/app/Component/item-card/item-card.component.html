@@ -1,0 +1,26 @@
+<div (click)="redirectArticle(product.id)" class="bg-white cursor-pointer drop-shadow-md rounded-lg overflow-hidden mx-auto w-[20vw]">
+  <div class="relative pt-2">
+    <img [src]="firstFile" alt="Product Image" class="w-full h-48 object-contain">
+    <div *ngIf="product.promotion" class="absolute top-0 right-0 bg-red-600 text-white px-2 py-1 w-[20%] h-[25%] text-center flex items-center justify-center text-xl font-bold">
+      -{{ product.promotion }}%
+    </div>
+
+  </div>
+  <div class="p-4 flex flex-col">
+    <div class="flex flex-row gap-2 items-center">
+    <h2 class="text-lg font-bold">{{ product.name }}</h2>
+    <p *ngIf="isNew" class="text-red-500 px-2 py-1  text-center text-xs font-bold">
+      Nouveauté
+    </p>
+  </div>
+    <p class="text-gray-600 text-sm mt-2 text-ellipsis max-x-[1%] overflow-hidden whitespace-nowrap">{{ product.description }}</p>
+    <div class="mt-[5%];">
+      <span class="text-red-500 text-xl font-bold">{{ product.priceAfterPromotion }}€</span>
+      <span *ngIf="product.promotion" class="text-gray-500 line-through ml-2">{{ product.price }}€</span>
+    </div>
+    <div class="mt-4 flex gap-x-4">
+      <app-buy-button [productDate]="product.id" (click)="$event.stopPropagation()"></app-buy-button>
+      <app-product-detail-button [id]="product.id" (click)="$event.stopPropagation()"></app-product-detail-button>
+    </div>
+  </div>
+</div>

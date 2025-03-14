@@ -1,0 +1,57 @@
+<div class="bg-gray-100 px-4 sm:px-8 py-4 min-h-screen">
+  <div class="flex flex-col sm:flex-row justify-between items-center p-4">
+    <h1 class="text-xl sm:text-2xl font-bold mb-4 sm:mb-0">Frais de livraison</h1>
+    <button
+      (click)="redirectNewCountry()"
+      class="bg-red-500 text-white w-full sm:w-auto sm:px-6 sm:py-3 px-4 py-2 rounded hover:bg-red-600 flex items-center justify-center shadow-md"
+    >
+      <span>Ajouter un pays livrable</span>
+    </button>
+  </div>
+
+  <div class="mt-8 px-4">
+    <div class="mb-4">
+      <label for="countryName" class="block text-gray-700 font-semibold pb-2">Sélectionner un pays livrable</label>
+      <select id="countryName" class="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+              (change)="onCountrySelect($event)">
+        <option value="">Sélectionner un pays</option>
+        <option *ngFor="let country of countries" [value]="country.id">{{ country.name | titlecase }}</option>
+      </select>
+    </div>
+
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mt-8">
+
+      <div *ngFor="let fee of selectedCountryFees" class="bg-white p-6 rounded-lg shadow-lg">
+        <div class="text-lg font-bold mb-4">
+          <div *ngIf="fee.deliveryMethod">{{ fee.deliveryMethod | titlecase }}</div>
+          <div *ngIf="fee.deliverySpeed">{{ fee.deliverySpeed | titlecase }}</div>
+        </div>
+
+        <div>
+          <label class="block font-semibold text-gray-700 mb-2">Pourcentage des frais appliqués</label>
+          <input
+            [(ngModel)]="fee.feePercentage"
+            class="w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+            type="number" min="-100" max="100" step="1"
+          >
+        </div>
+
+        <div class="mt-4">
+
+          <button *ngIf="fee.deliveryMethod"
+                  class="bg-white text-red-600 border border-red-600 px-4 py-2 rounded hover:bg-red-600 hover:text-white"
+                  (click)="updateDeliveryMethodFee(selectedCountryId, fee)">
+            Mettre à jour Méthode
+          </button>
+
+          <button *ngIf="fee.deliverySpeed"
+                  class="bg-white text-red-600 border border-red-600 px-4 py-2 rounded hover:bg-red-600 hover:text-white"
+                  (click)="updateDeliverySpeedFee(selectedCountryId, fee)">
+            Mettre à jour Vitesse
+          </button>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

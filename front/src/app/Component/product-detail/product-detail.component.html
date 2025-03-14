@@ -1,0 +1,95 @@
+@if(loading){
+  <app-skeleton-product-detail></app-skeleton-product-detail>
+}@else{
+  <div class="flex flex-row justify-center gap-10 w-full mt-10 relative">
+    <div class="w-6/12 flex flex-col gap-5">
+      <h1 class="text-product truncate  text-4xl bg-gradient-to-r from-red-600 to-black bg-clip-text  text-transparent ">
+        {{ product.name }}
+      </h1>
+      <div *ngIf="isNew" class="text-red-500 py-1 text-lg font-bold">
+        Nouveauté
+      </div>
+      <p>{{ product.description }}</p>
+      <hr />
+      <div class="flex flex-col gap-4  ">
+        <div class="flex flex-row items-center gap-x-4 text-gray-600 text-xl ">
+          <h2>Prix : </h2>
+          <p class="text-gray-600">{{ product.price }}€</p>
+          <div class="flex gap-x-4 items-center" *ngIf="product.price !== product.originalPrice">
+            <p class="line-through text-lg">{{ product.originalPrice }}€</p>
+            <p class="absolute top-0 right-[5.4rem] bg-red-600 text-white px-2 py-1 rounded-sm w-[8%] h-[12%] text-center flex items-center justify-center  text-xl font-bold  ">- {{ product.promotion}} %</p>
+          </div>
+        </div>
+        <hr />
+
+        @if(product.quantity <=0 ){
+        }@else{
+          <div class="flex flex-row gap-x-4">
+            <app-buy-button [productDate] = "product"></app-buy-button>
+            <app-add-to-cart-button (click)="reloadProduct()" [productDate] = "product"></app-add-to-cart-button>
+          </div>
+          <br />
+        }
+
+        <div class="w-full flex flex-row gap-2 items-center">
+          <p class="w-fit"> @if(product.quantity <=0 ){
+            En rupture
+          }@else{
+            En stock : {{product.quantity}}
+          }</p>
+          <div class="w-5 h-5 rounded-full" style="background-color: {{ stockColor }};"></div>
+
+
+
+        </div>
+        <div class="flex flex-row items-center gap-2">
+          <p>Couleur : </p>
+          <div class=" radius rounded-full w-6 h-6 border-red-500 border" style="background-color: {{ product.color }};"></div>
+          <div *ngFor="let variantColor of product.variants" style="background-color: {{ variantColor.color }};"  class="radius rounded-full w-4 h-4 cursor-pointer" (click)="redirectVariantes(variantColor.id)"></div>
+        </div>
+        <h3 class="text-xl font-semibold mb-2">Specifications :</h3>
+        <table class="min-w-full bg-white">
+          <thead>
+          <tr>
+            <th class="py-2 px-4 bg-gray-200 text-left text-sm font-medium text-gray-700">Specifications</th>
+            <th class="py-2 px-4 bg-gray-200 text-left text-sm font-medium text-gray-700">Valeurs</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr *ngFor="let spec of visibleSpecifications" class="border-b border-gray-200">
+            <td class="py-2 px-4 text-sm text-gray-700">{{ spec.key }}</td>
+            <td class="py-2 px-4 text-sm text-gray-700">{{ spec.value }}</td>
+          </tr>
+          </tbody>
+        </table>
+        @if (visibleSpecifications.length<5){
+        }@else{
+          <div *ngIf="!showAllSpecifications">
+            <button class="mt-2 text-blue-500 hover:text-blue-700" (click)="toggleSpecifications()">Afficher plus</button>
+          </div>
+          <div *ngIf="showAllSpecifications">
+            <button class="mt-2 text-blue-500 hover:text-blue-700" (click)="toggleSpecifications()">Afficher moins</button>
+          </div>
+
+        }
+        <br />
+
+
+      </div>
+    </div>
+    <div class="w-6/12 heightVH justify-end flex flex-row items-start gap-4">
+      <img [src]="product.mainImage" alt="Product Image" class="border bg-white border-gray-300 object-contain w-10/12 rounded-b-sm shadow h-[45vh]  p-4" id="main_photo">
+      <div class=" w-1/12 gap-4 h-full  flex flex-col ">
+        <img *ngFor="let image of product.additionalImages" [src]="image" alt="Product Image" class="thumbnail bg-white object-contain w-full h-[6vh]  cursor-pointer border border-gray-300 hover:border-red-500" (click)="changeMainImage(image)">
+      </div>
+    </div>
+  </div>
+  <div class="w-full mt-10">
+    <h3 class="text-2xl font-semibold mb-4">Vous pourriez aussi aimer :</h3>
+    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+      <app-item-card *ngFor="let randomProduct of randomProducts" [product]="randomProduct"></app-item-card>
+    </div>
+  </div>
+
+}
+

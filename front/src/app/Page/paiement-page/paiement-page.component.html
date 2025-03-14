@@ -1,0 +1,178 @@
+@if(loading){
+  <div class="fixed inset-0 flex flex-col gap-8 items-center justify-center bg-white">
+    <mat-spinner color="warn" ></mat-spinner>
+    <p class="text-xl">Paiement en cours, veuillez patienter...</p>
+  </div>
+} @else {
+  <!-- order-summary.component.html -->
+  <div class="container mx-auto my-10 p-6 bg-white shadow-lg rounded-lg ">
+  <button class="text-red-500 border-red-500 px-5 py-1 text-sm rounded-md border transition-transform hover:scale-105 mb-4" (click)="goBack()">Retour</button>
+
+  <h2 class="text-xl font-semibold text-gray-800 mb-2">Récapitulatif de commande</h2>
+
+
+    <!-- Shipping Address -->
+    <div class="flex flex-row">
+      <div class="w-6/12">
+        <div class="mb-6">
+          <h3 class="text-base font-semibold text-gray-700 mb-2">Adresse de livraison</h3>
+          <p class="text-gray-600">
+            {{commandInfos.adress.address}}<br>
+            {{commandInfos.adress.city}} {{commandInfos.adress.zipcode}}<br>
+            {{commandInfos.adress.country}}
+          </p>
+        </div>
+
+        <!-- User personnal infos -->
+        <div class="mb-6">
+          <h3 class="text-base font-semibold text-gray-700 mb-2">Informations personnelles</h3>
+          <p class="text-gray-600">
+            {{commandInfos.personnalInformation.email}}<br>
+            {{commandInfos.personnalInformation.firstName}} {{commandInfos.personnalInformation.lastName}}<br>
+            {{commandInfos.personnalInformation.phoneNumber}}
+          </p>
+        </div>
+
+        <!-- Delivery Method -->
+        <div class="flex gap-4">
+          <div class="mb-6 ">
+            <h3 class="text-base font-semibold text-gray-700 mb-2">Livraison</h3>
+            <p class="text-gray-600">{{commandInfos.deliveryMethod.deliveryMethod}} / {{commandInfos.deliverySpeedMethod.deliverySpeed}}</p>
+          </div>
+        </div>
+
+        <!-- Total Price -->
+        <div class="mb-6">
+          <h3 class="text-base font-semibold text-gray-700 mb-2">Prix total TTC</h3>
+          <p class="text-gray-600">{{commandInfos.totalPrice}}€</p>
+        </div>
+      </div>
+
+      <!-- Product Card -->
+      <div class="w-6/12">
+        <div class="mb-6">
+          <h3 class="text-base font-semibold text-gray-700 mb-4 ">
+            @if(items.length>1){
+              Produits achetés
+            }@else{
+              Produit acheté
+            }
+          </h3>
+          <div class="flex flex-col gap-2">
+            @for(item of items; track item.id){
+              <div class="flex items-center bg-gray-50 p-4 rounded-lg shadow">
+                <img src="{{item.mainImage}}" alt="Laptop" class="w-16 h-16 object-cover mr-4 rounded-lg">
+                <div>
+                  <h4 class="text-base font-semibold text-gray-800">{{item.name}}</h4>
+                  <p class="text-sm  text-gray-600">Price: {{item.price}}€</p>
+                  <p class="text-sm text-gray-600">Quantité: {{item.quantity}}</p>
+
+                </div>
+              </div>
+            }
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <!-- Credit Card Information -->
+    <div class="border-t pt-6 mt-6 ">
+      @if(!displayPaypal){
+      <h3 class="text-base font-semibold text-gray-700 mb-4">Informations de paiement</h3>
+      <div class="stacked-card relative w-3/12">
+        <div class="card-container bg-red-100 w-full rounded-xl text-white  mx-auto">
+          <img class="relative object-cover w-full h-full rounded-xl" src="https://i.imgur.com/kGkSg1v.png">
+          <div class="w-full px-8 py-3 absolute top-0 flex flex-col justify-between h-full">
+            <div class="flex justify-between">
+              <div>
+                <p class="font-medium tracking-widest text-xs">{{commandInfos.personnalInformation.firstName}} {{commandInfos.personnalInformation.lastName}}</p>
+              </div>
+              @if(connectedUser){
+                <h1 class="font-bold text-sm">{{ commandInfos.paiementCard.cardBrand }}</h1>
+              } @else {
+                <h1 class="font-bold text-sm">VISA</h1>
+              }
+            </div>
+            <div class="flex flex-rom justify-between items-center">
+              <div class="flex gap-4 items-center">
+                <img src="../../../assets/sansContact.png" class="object-contain h-8">
+                <img src="../../../assets/pucepng" class="object-contain h-8">
+              </div>
+            </div>
+            <div class="pt-1">
+              <p class="font-light text-xs">Card Number</p>
+              @if(connectedUser){
+                <p class="font-medium tracking-more-wider text-sm">****  ****  ****  {{ commandInfos.paiementCard.last4 }}</p>
+              } @else {
+                <p class="font-medium tracking-more-wider text-sm">****  ****  ****  {{ commandInfos.unconnectUserPayment.last4Digits }}</p>
+              }
+            </div>
+          </div>
+        </div>
+      </div>
+      }
+    </div>
+
+  @if(displayPaypal){
+    <!-- Action for payment with PAYPAL-->
+    <div class="w-full flex items-center justify-center">
+    <div id="paypal-button-container" class="w-6/12"></div>
+    </div>
+  }
+
+    <!-- Action Button for payment with card-->
+    <div class="flex mt-8 justify-start gap-4">
+      @if(!displayPaypal){
+        <button class="bg-red-500 text-white px-4 py-2 rounded-md hover:bg-red-600" (click)="executePaiement()">Payer la commande</button>
+      }
+    </div>
+
+
+</div>
+
+  @if (visiblePopup){
+    <!--POPUP PAIEMENT RÉUSSI -->
+    <div
+      class="fixed inset-0 flex items-center justify-center bg-white"
+      (click)="closePopup()"
+    >
+      <div
+        class="bg-white p-6 rounded-lg shadow-lg transform transition-transform duration-300 scale-90 animate-slide-up relative"
+        (click)="$event.stopPropagation()"
+      >
+        <div class="flex flex-col items-center">
+          <!-- Cercle vert avec icône -->
+        <div class="flex items-center justify-center w-16 h-16 bg-red-200 rounded-full mb-4">
+          <svg
+            class="w-8 h-8 text-red-500"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M5 13l4 4L19 7"
+            ></path>
+          </svg>
+        </div>
+        <h2 class="text-xl font-semibold mb-2">Commande réussie!</h2>
+        <p class="text-gray-600">Votre commande a bien été passée.</p>
+          <p (click)="generatePDF()" class="cursor-pointer text-red-500 hover:underline">Télécharger ma facture</p>
+        <button
+          class="mt-4 bg-red-500 text-white py-2 px-6 rounded-full hover:bg-red-600 transition"
+          (click)="closePopup()"
+        >
+          Fermer
+        </button>
+      </div>
+    </div>
+
+  </div>
+    }
+
+}
+

@@ -1,0 +1,30 @@
+<div class="flex justify-start flex-col items-center mt-[2%] min-h-[74vh]">
+  <div class="w-[90%] pb-16 rounded-xl p-2">
+    <div class="flex items-center justify-end gap-4 mb-[2%]">
+      <div>
+        <span class="text-sm font-medium text-gray-700 w-20">Min: {{ prixMin }}</span>
+        <mat-slider [min]="CprixMin" [max]="CprixMax" [step]="50" (mouseup)="FilterComponent(prixMin, prixMax)">
+          <input [value]="prixMin" (input)="onPrixMinChange($event)" matSliderStartThumb>
+          <input [value]="prixMax" (input)="onPrixMaxChange($event)" matSliderEndThumb>
+        </mat-slider>
+        <span class="text-sm font-medium text-gray-700 ml-2">Max: {{ prixMax }}</span>
+      </div>
+
+      <div>
+        <select [(ngModel)]="selectedOption" (change)="onOptionChange()" class="bg-white py-1 px-2.5 border-[0.5px] border-black">
+          <option value="" [disabled]="true">Trier par</option>
+          <option value="desc" class="cursor-pointer">Prix décroissant</option>
+          <option value="asc" class="cursor-pointer">Prix croissant</option>
+        </select>
+      </div>
+    </div>
+
+    <div *ngIf="loading" class="w-full h-[55vh] flex items-center justify-center">
+      <mat-spinner color="warn"></mat-spinner>
+    </div>
+
+    <div *ngIf="!loading" class="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-x-10 gap-y-16">
+      <app-item-card *ngFor="let product of filteredProducts" [product]="product" class="w-full"></app-item-card>
+    </div>
+  </div>
+</div>

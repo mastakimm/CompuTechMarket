@@ -1,0 +1,41 @@
+<div class="flex justify-center flex-col items-center mt-[2%]">
+  <div class="w-[90%] pb-16 rounded-xl p-2">
+    <div class="flex  items-center justify-between ">
+      <div>
+
+        <span class="text-sm font-medium text-gray-700 w-20">Min: {{ prixMin }}</span>
+        <mat-slider [min]="CprixMin"  [max]="CprixMax" [step]="50" (mouseup)="FilterComponent(prixMin,prixMax)">
+          <input [value]="prixMin" (input)="onPrixMinChange($event)"  matSliderStartThumb>
+          <input [value]="prixMax" (input)="onPrixMaxChange($event)"  matSliderEndThumb>
+        </mat-slider>
+        <span class="text-sm font-medium text-gray-700 ml-2">Max: {{ prixMax }}</span>
+      </div>
+
+      <div>
+
+        <select [(ngModel)]="selectedOption" (change)="onOptionChange()" class="bg-white py-1 px-2.5 border-[0.5px] border-black">
+          <option value="" [disabled]="true">trier par</option>
+          <option value="desc" class=" border border-black cursor-pointer  px-3 py-1  object-contain bg-blue-500 ">
+            prix decroissant
+          </option>
+          <option value="asc" class=" border border-black cursor-pointer  px-3 py-1object-contain">
+            prix croissant
+          </option>
+        </select>
+      </div>
+    </div>
+    <div class="grid grid-cols-2  sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-[2%]">
+      @if (clicked){
+
+        @for (item of allPiecesAfter; track item.id){
+          <app-item-card [product]="item" class="w-full"/>
+        }
+      } @else {
+        @for (item of allPieces; track item.id){
+          <app-item-card [product]="item" class="w-full"/>
+        }
+      }
+    </div>
+  </div>
+</div>
+

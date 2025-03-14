@@ -1,0 +1,14 @@
+<div class="dialog-container">
+  <mat-dialog-content class="dialog-content">
+    <p>{{ data.message }}</p>
+  </mat-dialog-content>
+
+  <mat-dialog-actions align="center" class="dialog-actions">
+    <button mat-flat-button class="cancel-button" (click)="onCancel()">
+      <mat-icon>close</mat-icon> {{ data.cancelButtonText }}
+    </button>
+    <button mat-raised-button class="confirm-button" color="primary" (click)="onConfirm()">
+      <mat-icon>check_circle</mat-icon> {{ data.confirmButtonText }}
+    </button>
+  </mat-dialog-actions>
+</div>

@@ -1,0 +1,42 @@
+.review-card {
+  max-width: 500px;
+  margin: auto;
+  padding: 20px;
+}
+
+.star-rating {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 15px;
+}
+
+.star {
+  cursor: pointer;
+  transition: transform 0.2s ease-in-out;
+}
+
+.star:hover {
+  transform: scale(1.2);
+}
+
+.full-width {
+  width: 100%;
+}
+
+.actions {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 20px;
+}
+
+mat-form-field {
+  margin-bottom: 15px;
+}
+
+.mat-mdc-card{
+  box-shadow: none !important;
+}
+.mat-mdc-card-header{
+  align-items: center;
+  justify-content: center;
+}

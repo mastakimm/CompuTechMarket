@@ -1,0 +1,49 @@
+.img-component{
+  height: 600px;
+  width: 540px;
+  object-fit: contain;
+}
+
+.enabled-input {
+  background-color: white !important;
+}
+
+.disabled-input {
+  background-color: #f9f9f9 !important;
+}
+
+.absolute-color-input {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 2.5rem;
+  height: 2.5rem;
+  opacity: 0;
+  cursor: pointer;
+}
+
+.custom-color-picker {
+  display: inline-block;
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: 50%;
+  cursor: pointer;
+  background-color: #ffffff;
+  border: 1px solid #ccc;
+  box-shadow: 0 0 3px rgba(0, 0, 0, 0.1);
+  transition: box-shadow 0.2s;
+}
+
+.custom-color-picker:hover {
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+}
+
+.snackbar-success {
+  background-color: #4caf50;
+  color: white;
+}
+
+.snackbar-error {
+  background-color: #f44336;
+  color: white;
+}

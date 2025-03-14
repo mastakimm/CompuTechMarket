@@ -1,0 +1,85 @@
+@if(loading){
+  <div class="w-full flex justify-center">
+    <div class="border border-gray-300 rounded-lg w-[70%] flex flex-col my-4">
+      <div class="h-[10vh] bg-gray-100 flex justify-between items-center p-4 rounded-t-lg">
+        <div class="flex flex-col">
+          <div class="animate-pulse bg-gray-300 h-4 w-32 rounded-md mb-2"></div>
+          <div class="animate-pulse bg-gray-300 h-4 w-24 rounded-md"></div>
+        </div>
+        <div class="flex flex-col">
+          <div class="animate-pulse bg-gray-300 h-4 w-20 rounded-md mb-2"></div>
+          <div class="animate-pulse bg-gray-300 h-4 w-28 rounded-md"></div>
+        </div>
+        <div class="flex flex-col text-right">
+          <div class="animate-pulse bg-gray-300 h-4 w-40 rounded-md"></div>
+        </div>
+      </div>
+
+      <div class="bg-white flex p-4 rounded-b-lg shadow-sm justify-between">
+        <div class="flex flex-col w-9/12">
+          <div class="ml-4 flex w-4/5">
+            <div class="animate-pulse bg-gray-300 w-28 h-28 rounded-lg mt-2"></div>
+            <div class="ml-auto w-full">
+              <div class="animate-pulse bg-gray-300 h-6 w-3/4 rounded-md mt-2 ml-3 mb-2"></div>
+              <div class="animate-pulse bg-gray-300 h-4 w-1/2 rounded-md ml-3 mb-4"></div>
+              <div class="flex gap-2 items-center">
+                <div class="animate-pulse bg-gray-300 h-8 w-28 rounded-md ml-3 mt-2"></div>
+                <div class="animate-pulse bg-gray-300 h-8 w-40 rounded-md ml-3 mt-2"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="flex flex-col items-center justify-start w-3/12">
+          <div class="animate-pulse bg-gray-300 h-8 w-36 rounded-md mb-2"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+}@else{
+  <div class="w-full flex justify-center ">
+    <div class="border border-gray-300 rounded-lg w-[70%] flex flex-col my-4">
+
+      <div class="h-[10vh] bg-gray-100 flex justify-between items-center p-4 rounded-t-lg">
+        <div class="flex flex-col">
+          <h2 class="font-semibold text-gray-600 ">Date de commande</h2>
+          <h2 class="text-gray-800 font-medium">{{commandDate}}</h2>
+        </div>
+        <div class="flex flex-col">
+          <h2 class="font-semibold text-gray-600">Total</h2>
+          <h2 class="text-gray-800 font-medium">{{total}}€ <span class="text-md text-gray-500">TTC</span></h2>
+        </div>
+        <div class="flex flex-col text-right">
+          <h2 class="font-semibold text-gray-600">Commande : {{orderId}}</h2>
+        </div>
+      </div>
+
+
+      <div class="bg-white flex p-4 rounded-b-lg shadow-sm justify-between">
+        <div class="flex flex-col w-full">
+          <div class="flex flex-row items-center  justify-end  w-full gap-4">
+            <button (click)="generatePDF()" class="rounded-md px-4 py-1 border border-red-500  text-red-500 font-medium text-md transition-transform hover:scale-[1.04]">Télécharger ma facture</button>
+            <button class="rounded-md px-4 py-1 bg-red-500 text-white font-medium text-md transition-transform hover:scale-[1.04]" (click)="redirectSuivi()">suivre la commande</button>
+          </div>
+          <div *ngFor="let product of productz" class="ml-4 flex w-9/12">
+            <img (click)="redirectArticle(product.id)" class="w-28 object-contain cursor-pointer rounded-lg mt-2" [src]="product.files?.[0].file" alt="Product Image">
+            <div  class="ml-auto">
+              <h2 (click)="redirectArticle(product.id)" class="cursor-pointer hover:underline text-lg font-semibold text-gray-800 mt-2 ml-3 w-4/5 ">{{product.name}}</h2>
+              <p (click)="redirectArticle(product.id)" class="cursor-pointer hover:underline  text-gray-600 ml-3 mt-1 w-[45vw] text-ellipsis max-x-[1%] overflow-hidden whitespace-nowrap">{{product.description}}</p>
+              <div class="flex gap-2 items-center">
+                <button
+                  class="rounded-md border-red-500 border-2 px-4 py-1  text-red-500 ml-3 mt-2  transition-transform hover:scale-[1.04]"
+                  (click)="openReviewDialog(product.id)">
+                  Donner un avis
+                </button>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+    </div>
+  </div>
+}
+

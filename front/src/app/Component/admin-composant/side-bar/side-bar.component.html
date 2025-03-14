@@ -1,0 +1,129 @@
+<div class="relative h-full min-h-screen flex">
+
+  <div [ngClass]="{'hidden sm:flex': !sidebarOpen, 'flex': sidebarOpen}"
+       class="fixed sm:relative top-0 left-0 w-64 h-full z-50 sm:z-auto flex-col bg-customRed bg-clip-border shadow-xl transition-transform transform sm:translate-x-0"
+       [class.translate-x-0]="sidebarOpen"
+       [class.-translate-x-full]="!sidebarOpen">
+
+    <div class="p-4 mt-12">
+      <img src="../../../../assets/admin/Logo.png" alt="CompuTechMarket Logo" class="h-12 w-auto mx-auto">
+      <h5 class="text-white block font-sans text-xl antialiased font-semibold leading-snug tracking-normal text-blue-gray-900 p-4">
+        CompuTechMarket
+      </h5>
+    </div>
+
+    <div class="w-full h-0.5 bg-gray-200"></div>
+
+    <nav class="flex flex-col gap-3 p-4 font-sans text-xl font-normal text-blue-gray-700 flex-grow">
+
+      <a routerLink="users" (click)="closeSidebar()" class="pt-10">
+        <div role="button"
+             [ngClass]="{'border border-white': isRouteActive(['/users'])}"
+             class="flex items-center w-full p-2 text-white text-lg rounded-lg outline-none text-start hover:bg-blue-gray-50 hover:bg-opacity-80 hover:text-blue-gray-900">
+          <div class="grid mr-4 place-items-center pl-3">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M18 18.72a9.094 9.094 0 0 0 3.741-.479 3 3 0 0 0-4.682-2.72m.94 3.198.001.031c0 .225-.012.447-.037.666A11.944 11.944 0 0 1 12 21c-2.17 0-4.207-.576-5.963-1.584A6.062 6.062 0 0 1 6 18.719m12 0a5.971 5.971 0 0 0-.941-3.197m0 0A5.995 5.995 0 0 0 12 12.75a5.995 5.995 0 0 0-5.058 2.772m0 0a3 3 0 0 0-4.681 2.72 8.986 8.986 0 0 0 3.74.477m.94-3.197a5.971 5.971 0 0 0-.94 3.197M15 6.75a3 3 0 1 1-6 0 3 3 0 0 1 6 0Zm6 3a2.25 2.25 0 1 1-4.5 0 2.25 2.25 0 0 1 4.5 0Zm-13.5 0a2.25 2.25 0 1 1-4.5 0 2.25 2.25 0 0 1 4.5 0Z" />
+            </svg>
+          </div>
+          Utilisateurs
+        </div>
+      </a>
+
+      <a routerLink="products" (click)="closeSidebar()">
+        <div role="button"
+             [ngClass]="{'border border-white': isRouteActive(['/product'])}"
+             class="flex items-center text-white text-lg w-full p-2 rounded-lg outline-none text-start hover:bg-blue-gray-50 hover:bg-opacity-80 hover:text-blue-gray-900">
+          <div class="grid mr-4 pl-3 place-items-center">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 3v1.5M4.5 8.25H3m18 0h-1.5M4.5 12H3m18 0h-1.5m-15 3.75H3m18 0h-1.5M8.25 19.5V21M12 3v1.5m0 15V21m3.75-18v1.5m0 15V21m-9-1.5h10.5a2.25 2.25 0 0 0 2.25-2.25V6.75a2.25 2.25 0 0 0-2.25-2.25H6.75A2.25 2.25 0 0 0 4.5 6.75v10.5a2.25 2.25 0 0 0 2.25 2.25Zm.75-12h9v9h-9v-9Z" />
+            </svg>
+          </div>
+          Produits
+        </div>
+      </a>
+
+      <a routerLink="categories" (click)="closeSidebar()">
+        <div role="button"
+             [ngClass]="{'border border-white': isRouteActive(['/categorie'])}"
+             class="flex items-center w-full text-white text-lg p-2 rounded-lg outline-none text-start hover:bg-blue-gray-50 hover:bg-opacity-80 hover:text-blue-gray-900">
+          <div class="grid mr-4 pl-3 place-items-center">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M9.568 3H5.25A2.25 2.25 0 0 0 3 5.25v4.318c0 .597.237 1.17.659 1.591l9.581 9.581c.699.699 1.78.872 2.607.33a18.095 18.095 0 0 0 5.223-5.223c.542-.827.369-1.908-.33-2.607L11.16 3.66A2.25 2.25 0 0 0 9.568 3Z" />
+              <path stroke-linecap="round" stroke-linejoin="round" d="M6 6h.008v.008H6V6Z" />
+            </svg>
+          </div>
+          Catégories
+        </div>
+    </a>
+    <a routerLink="promotion">
+      <div role="button"
+           [ngClass]="{'border border-white': isRouteActive(['/promotion'])}"
+           class="flex items-center text-white w-full p-2 text-lg rounded-lg outline-none text-start hover:bg-blue-gray-50 hover:bg-opacity-80 hover:text-blue-gray-900 focus:bg-blue-gray-50 focus:bg-opacity-80 focus:text-blue-gray-900 active:bg-blue-gray-50 active:bg-opacity-80 active:text-blue-gray-900">
+        <div class="grid mr-4 pl-3 place-items-center">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M12 22c3.976 0 8-1.374 8-4V6c0-2.626-4.024-4-8-4S4 3.374 4 6v12c0 2.626 4.024 4 8 4zm0-2c-3.722 0-6-1.295-6-2v-1.268C7.541 17.57 9.777 18 12 18s4.459-.43 6-1.268V18c0 .705-2.278 2-6 2zm0-16c3.722 0 6 1.295 6 2s-2.278 2-6 2-6-1.295-6-2 2.278-2 6-2zM6 8.732C7.541 9.57 9.777 10 12 10s4.459-.43 6-1.268V10c0 .705-2.278 2-6 2s-6-1.295-6-2V8.732zm0 4C7.541 13.57 9.777 14 12 14s4.459-.43 6-1.268V14c0 .705-2.278 2-6 2s-6-1.295-6-2v-1.268z" fill="white"/></svg>
+        </div>
+        Promotions
+      </div>
+    </a>
+
+      <a routerLink="stock" (click)="closeSidebar()">
+        <div role="button"
+             [ngClass]="{'border border-white': isRouteActive(['/stock'])}"
+             class="flex items-center w-full text-white text-lg p-2 rounded-lg outline-none text-start hover:bg-blue-gray-50 hover:bg-opacity-80 hover:text-blue-gray-900">
+          <div class="grid mr-4 pl-3 place-items-center">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M20.25 6.375c0 2.278-3.694 4.125-8.25 4.125S3.75 8.653 3.75 6.375m16.5 0c0-2.278-3.694-4.125-8.25-4.125S3.75 4.097 3.75 6.375m16.5 0v11.25c0 2.278-3.694 4.125-8.25 4.125s-8.25-1.847-8.25-4.125V6.375m16.5 0v3.75m-16.5-3.75v3.75m16.5 0v3.75C20.25 16.153 16.556 18 12 18s-8.25-1.847-8.25-4.125v-3.75m16.5 0c0 2.278-3.694 4.125-8.25 4.125s-8.25-1.847-8.25-4.125" />
+            </svg>
+          </div>
+          Stocks
+        </div>
+      </a>
+
+      <a routerLink="delivery-fees" (click)="closeSidebar()">
+        <div role="button"
+             [ngClass]="{'border border-white': isRouteActive(['/delivery-fees', 'deliverable-country'])}"
+             class="flex items-center w-full text-white text-lg p-2 rounded-lg outline-none text-start hover:bg-blue-gray-50 hover:bg-opacity-80 hover:text-blue-gray-900">
+          <div class="grid mr-4 pl-3 place-items-center">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+              <path stroke-linecap="round" stroke-linejoin="round" d="m11.25 11.25.041-.02a.75.75 0 0 1 1.063.852l-.708 2.836a.75.75 0 0 0 1.063.853l.041-.021M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9-3.75h.008v.008H12V8.25Z" />
+            </svg>
+          </div>
+          Frais de livraison
+        </div>
+      </a>
+
+      <a routerLink="payment-methods" (click)="closeSidebar()">
+        <div role="button"
+             [ngClass]="{'border border-white': isRouteActive(['/payment-methods'])}"
+             class="flex items-center w-full text-white text-lg p-2 rounded-lg outline-none text-start hover:bg-blue-gray-50 hover:bg-opacity-80 hover:text-blue-gray-900">
+          <div class="grid mr-4 pl-3 place-items-center">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 8.25h19.5M2.25 9h19.5m-16.5 5.25h6m-6 2.25h3m-3.75 3h15a2.25 2.25 0 0 0 2.25-2.25V6.75A2.25 2.25 0 0 0 19.5 4.5h-15a2.25 2.25 0 0 0-2.25 2.25v10.5A2.25 2.25 0 0 0 4.5 19.5Z" />
+            </svg>
+          </div>
+          Méthodes de paiement
+        </div>
+      </a>
+
+      <div class="flex-grow"></div>
+      <div role="button"
+           (click)="logout()"
+           class="border-t border-white flex items-center w-full text-white text-lg p-2 leading-tight transition-all rounded-lg outline-none text-start hover:bg-blue-gray-50 hover:bg-opacity-80 hover:text-blue-gray-900">
+        <div class="pr-2">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 9V5.25A2.25 2.25 0 0 0 13.5 3h-6a2.25 2.25 0 0 0-2.25 2.25v13.5A2.25 2.25 0 0 0 7.5 21h6a2.25 2.25 0 0 0 2.25-2.25V15M12 9l-3 3m0 0 3 3m-3-3h12.75" />
+          </svg>
+        </div>
+        Se déconnecter
+      </div>
+    </nav>
+  </div>
+
+  <div *ngIf="sidebarOpen" (click)="closeSidebar()" class="fixed inset-0 bg-black opacity-50 sm:hidden z-40"></div>
+
+  <button (click)="toggleSidebar()" class="sm:hidden fixed top-4 left-4 z-50 text-white text-lg">
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-list">
+      <path fill-rule="evenodd" d="M3.5 12.5A.5.5 0 0 1 4 12h16a.5.5 0 0 1 0 1H4a.5.5 0 0 1-.5-.5zm0-5a.5.5 0 0 1 .5-.5h16a.5.5 0 0 1 0 1H4a.5.5 0 0 1-.5-.5zm0 10a.5.5 0 0 1 .5-.5h16a.5.5 0 0 1 0 1H4a.5.5 0 0 1-.5-.5z"/>
+    </svg>
+  </button>
+</div>

@@ -1,0 +1,148 @@
+<div class="container mx-auto p-4">
+  <h2 class="text-2xl font-bold mb-4 pt-10 pb-10">Ajouter une nouvelle adresse</h2>
+
+  <form [formGroup]="addressForm" (ngSubmit)="onSubmit()">
+
+    <div class="mb-4 flex space-x-4">
+      <div class="w-1/2">
+        <label class="block text-gray-700 font-bold mb-2" for="firstname">Prénom</label>
+        <input
+          id="firstname"
+          formControlName="firstname"
+          type="text"
+          class="w-full p-2 border border-gray-300 rounded"
+          placeholder="Entrez votre prénom"
+          [ngClass]="{ 'border-red-500': addressForm.get('firstname')?.invalid && addressForm.get('firstname')?.touched }"
+        />
+        <div *ngIf="addressForm.get('firstname')?.invalid && addressForm.get('firstname')?.touched" class="text-red-500 text-sm">
+          Prénom requis.
+        </div>
+      </div>
+
+      <div class="w-1/2">
+        <label class="block text-gray-700 font-bold mb-2" for="lastname">Nom de famille</label>
+        <input
+          id="lastname"
+          formControlName="lastname"
+          type="text"
+          class="w-full p-2 border border-gray-300 rounded"
+          placeholder="Entrez votre nom de famille"
+          [ngClass]="{ 'border-red-500': addressForm.get('lastname')?.invalid && addressForm.get('lastname')?.touched }"
+        />
+        <div *ngIf="addressForm.get('lastname')?.invalid && addressForm.get('lastname')?.touched" class="text-red-500 text-sm">
+          Nom de famille requis.
+        </div>
+      </div>
+    </div>
+
+    <div class="mb-4">
+      <label class="block text-gray-700 font-bold mb-2" for="address">Adresse</label>
+      <input
+        id="address"
+        formControlName="address"
+        type="text"
+        class="w-full p-2 border border-gray-300 rounded"
+        [ngClass]="{ 'border-red-500': addressForm.get('address')?.invalid && addressForm.get('address')?.touched }"
+        placeholder="Entrez votre adresse"
+      />
+      <div *ngIf="addressForm.get('address')?.invalid && addressForm.get('address')?.touched" class="text-red-500 text-sm">
+        L'adresse est requise. (5 characters minimum)
+      </div>
+    </div>
+
+    <div class="mb-4 flex space-x-4">
+      <div class="w-1/2">
+        <label class="block text-gray-700 font-bold mb-2" for="zipcode">Code postal</label>
+        <input
+          id="zipcode"
+          formControlName="zipcode"
+          type="text"
+          class="w-full p-2 border border-gray-300 rounded"
+          placeholder="Entrez votre code postal"
+          [ngClass]="{ 'border-red-500': addressForm.get('zipcode')?.invalid && addressForm.get('zipcode')?.touched }"
+        />
+        <div *ngIf="addressForm.get('zipcode')?.invalid && addressForm.get('zipcode')?.touched" class="text-red-500 text-sm">
+          Code postal requis (4-10 characters).
+        </div>
+      </div>
+
+      <div class="w-1/2">
+        <label class="block text-gray-700 font-bold mb-2" for="city">Ville</label>
+        <input
+          id="city"
+          formControlName="city"
+          type="text"
+          class="w-full p-2 border border-gray-300 rounded"
+          placeholder="Entrez votre ville"
+          [ngClass]="{ 'border-red-500': addressForm.get('city')?.invalid && addressForm.get('city')?.touched }"
+        />
+        <div *ngIf="addressForm.get('city')?.invalid && addressForm.get('city')?.touched" class="text-red-500 text-sm">
+          Ville requise.
+        </div>
+      </div>
+    </div>
+
+    <div class="mb-4 flex space-x-4">
+      <div class="w-1/2">
+        <label class="block text-gray-700 font-bold mb-2" for="country">Pays</label>
+        <input
+          id="country"
+          formControlName="country"
+          type="text"
+          class="w-full p-2 border border-gray-300 rounded"
+          placeholder="Entrez votre pays"
+          [ngClass]="{ 'border-red-500': addressForm.get('country')?.invalid && addressForm.get('country')?.touched }"
+        />
+        <div *ngIf="addressForm.get('country')?.invalid && addressForm.get('country')?.touched" class="text-red-500 text-sm">
+          Pays requis.
+        </div>
+      </div>
+
+      <div class="w-1/2">
+        <label class="block text-gray-700 font-bold mb-2" for="phone_number">Numéro de téléphone</label>
+        <input
+          id="phone_number"
+          formControlName="phone_number"
+          type="text"
+          class="w-full p-2 border border-gray-300 rounded"
+          placeholder="Entrez votre numéro de téléphone"
+          [ngClass]="{ 'border-red-500': addressForm.get('phone_number')?.invalid && addressForm.get('phone_number')?.touched }"
+        />
+        <div *ngIf="addressForm.get('phone_number')?.invalid && addressForm.get('phone_number')?.touched" class="text-red-500 text-sm">
+          Entrez un numéro de téléphone valide (10-15 chiffres).
+        </div>
+      </div>
+    </div>
+
+    <div class="mb-4">
+      <label class="block text-gray-700 font-bold mb-2" for="billing_address">Adresse de facturation</label>
+      <input
+        id="billing_address"
+        formControlName="billing_address"
+        type="text"
+        class="w-full p-2 border border-gray-300 rounded"
+        placeholder="Entrez votre adresse de facturation"
+        [ngClass]="{ 'border-red-500': addressForm.get('billing_address')?.invalid && addressForm.get('billing_address')?.touched }"
+      />
+      <div *ngIf="addressForm.get('billing_address')?.invalid && addressForm.get('billing_address')?.touched" class="text-red-500 text-sm">
+        L'adresse de facturation est requise (5 characters minimum).
+      </div>
+    </div>
+
+    <div class="mb-4">
+      <label class="inline-flex items-center">
+        <input type="checkbox" formControlName="isActive" class="form-checkbox">
+        <span class="ml-2">Définir comme adresse par défaut</span>
+      </label>
+    </div>
+
+    <div class="flex justify-between pb-10">
+      <button type="submit" class="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600"  [disabled]="addressForm.invalid">
+        Sauvegarder
+      </button>
+      <button type="button" class="bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-600" (click)="redirectToUserProfile()">
+        Retour
+      </button>
+    </div>
+  </form>
+</div>

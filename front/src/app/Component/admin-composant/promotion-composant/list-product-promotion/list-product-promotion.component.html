@@ -1,0 +1,78 @@
+<div class="table-container flex flex-col px-8 py-4 bg-gray-100 h-full">
+  <div class="flex w-full justify-between items-center p-5">
+  <h1 class="text-2xl font-bold ">Promotions</h1>
+  <button id="edit-btn" (click)="redirectToCreatePromotion()" class="bg-red-500 text-white px-6 py-3 rounded hover:bg-red-600 w-3/12 shadow-md">
+    Crée une promotion
+  </button>
+  </div>
+
+  <div *ngIf="selectedCategory" class="p-4 flex flex-wrap gap-4">
+    <ng-container *ngFor="let subCategory of selectedCategory.subCategories">
+      <button
+        (mouseenter)="onSubCategoryClick(subCategory.id)"
+        class="bg-white border-2 border-red-500 text-red-600 px-4 py-2 rounded"
+        [ngClass]="{
+        'bg-red-500 text-white border-red-500': selectedSubCategoryId === subCategory.id,
+        'bg-white text-red-600 border-red-500': selectedSubCategoryId !== subCategory.id
+      }"
+      >
+        {{ subCategory.nom }}
+      </button>
+    </ng-container>
+  </div>
+
+  <div class="px-4">
+    <app-admin-search-bar-product></app-admin-search-bar-product>
+  </div>
+
+
+  <div class="p-4 pt-8">
+
+    <table mat-table [dataSource]="products" class="mat-elevation-z8 w-full table-fixed">
+
+      <ng-container matColumnDef="typeName">
+        <th mat-header-cell *matHeaderCellDef class="text-center" style="min-width: 80px; max-width: 80px;">Type</th>
+        <td mat-cell *matCellDef="let element" class="text-center truncate" style="min-width: 80px; max-width: 80px;">{{element.typeName}}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="image">
+        <th mat-header-cell *matHeaderCellDef class="text-center" style="min-width: 128px; max-width: 128px;">Image</th>
+        <td mat-cell *matCellDef="let element" class="text-center" style="min-width: 128px; max-width: 128px;">
+          <img *ngIf="element.image" [src]="element.image" alt="{{element.name}}" class="w-16 h-16 object-cover">
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="name">
+        <th mat-header-cell *matHeaderCellDef class="text-center" style="min-width: 160px; max-width: 160px;">Nom</th>
+        <td mat-cell *matCellDef="let element" class="text-center truncate" style="min-width: 160px; max-width: 160px;">{{element.name}}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="model">
+        <th mat-header-cell *matHeaderCellDef class="text-center" style="min-width: 160px; max-width: 160px;">Modèle</th>
+        <td mat-cell *matCellDef="let element" class="text-center truncate" style="min-width: 160px; max-width: 160px;">{{element.model}}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="price">
+        <th mat-header-cell *matHeaderCellDef class="text-center" style="min-width: 80px; max-width: 80px;">Promotion</th>
+        <td mat-cell *matCellDef="let element" class="text-center truncate" style="min-width: 80px; max-width: 80px;">{{element.promotion}} %</td>
+      </ng-container>
+
+      <ng-container matColumnDef="start">
+        <th mat-header-cell *matHeaderCellDef class="text-center" style="min-width: 96px; max-width: 96px;">Début</th>
+        <td mat-cell *matCellDef="let element" class="text-center truncate" style="min-width: 96px; max-width: 96px;">{{element.started_at | date:'dd/MM/yyyy HH:mm' }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="end">
+        <th mat-header-cell *matHeaderCellDef class="text-center" style="min-width: 96px; max-width: 96px;">Fin</th>
+        <td mat-cell *matCellDef="let element" class="text-center truncate" style="min-width: 96px; max-width: 96px;">{{element.end_at | date:'dd/MM/yyyy HH:mm'}}</td>
+
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;"
+          (click)="redirectToProductDetail(row.id)"
+          class="hover:bg-gray-200 cursor-pointer">
+      </tr>
+    </table>
+  </div>
+</div>

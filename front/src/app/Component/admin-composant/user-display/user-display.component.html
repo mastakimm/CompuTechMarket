@@ -1,0 +1,45 @@
+<div class="table-container flex flex-col px-8 py-4 bg-gray-100 h-full">
+  <div class="flex w-full justify-between items-center p-4">
+    <h1 class="text-2xl font-bold">Utilisateurs</h1>
+    <button (click)="redirectNewUser()" class="bg-red-500 text-white px-6 py-3 rounded w-1/6 justify-center hover:bg-red-600 flex items-center space-x-2 shadow-md">
+      <span>Ajouter un utilisateur</span>
+    </button>
+  </div>
+
+  <div class="p-4 pt-12">
+    <app-admin-search-bar-users></app-admin-search-bar-users>
+  </div>
+
+  <div class="p-4 pt-8 overflow-x-auto">
+    <table mat-table [dataSource]="paginatedUsers" class="mat-elevation-z8 w-full min-w-[600px] sm:min-w-full table-fixed">
+
+      <ng-container matColumnDef="name">
+        <th mat-header-cell *matHeaderCellDef class="text-center">Nom</th>
+        <td mat-cell *matCellDef="let element" class="text-center truncate">{{element.nom}}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="email">
+        <th mat-header-cell *matHeaderCellDef class="text-center">Email</th>
+        <td mat-cell *matCellDef="let element" class="text-center truncate">{{element.email}}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="nombre_achat">
+        <th mat-header-cell *matHeaderCellDef class="text-center">Nombre d'achat</th>
+        <td mat-cell *matCellDef="let element" class="text-center truncate">{{element.nombre_achats}}</td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;"
+          [ngClass]="{ 'hover:bg-red-100 cursor-pointer': row.nom && row.email }"
+          (click)="row.nom && row.email ? onClickedUser(row) : null">
+      </tr>
+
+    </table>
+
+    <div *ngIf="filteredUsers.length > pageSize" class="pt-5">
+      <mat-paginator class="border border-black-600 rounded" [length]="filteredUsers.length" [pageSize]="pageSize" (page)="onPageChange($event)">
+      </mat-paginator>
+    </div>
+  </div>
+</div>

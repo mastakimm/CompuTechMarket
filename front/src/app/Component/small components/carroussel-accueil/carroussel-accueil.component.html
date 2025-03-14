@@ -1,0 +1,37 @@
+<div class="flex justify-center flex-col items-center mt-[1%]">
+  <div class="overflow-hidden w-[100%] bg-gray-50 rounded-xl p-2 border-gray-200 border">
+    <div class="flex flex-row overflow-x-scroll p-4 gap-x-[2%] ">
+
+
+      @if(loading){
+        @for (skeletonIteration of skeletonIterations; track $index ){
+          <app-skeleton-item-card></app-skeleton-item-card>
+        }
+      } @else {
+        <ng-container *ngFor="let item of allPieces; let i = index; trackBy: trackByFn">
+
+
+          <ng-container *ngIf="i < 10">
+            <app-item-card [product]="item"></app-item-card>
+          </ng-container>
+
+
+          <!-- CARD VOIR PLUS -->
+          <ng-container *ngIf="i === 10">
+            <div class="flex items-center justify-center">
+              <div (click)="voirPlusRedirect(item.typeId)" class="cursor-pointer overflow-hidden mx-auto w-[10vw] h-full flex flex-col items-center justify-center  rounded-r-full rounded-l group">
+                <div class="p-6  rounded-full border border-gray-400 bg-white flex items-center justify-center transition-transform duration-300 group-hover:scale-105">
+                  <p>Voir plus</p>
+                </div>
+              </div>
+
+            </div>
+
+
+          </ng-container>
+        </ng-container>
+      }
+
+    </div>
+  </div>
+</div>

@@ -1,0 +1,38 @@
+<div class="bg-gray-100 px-4 sm:px-8 py-4 min-h-screen">
+  <div class="flex flex-col sm:flex-row justify-between items-center p-4">
+    <h1 class="text-xl sm:text-2xl font-bold mb-4 sm:mb-0">Categories</h1>
+    <button
+      (click)="redirectNewCategorie()"
+      class="bg-red-500 text-white w-full sm:w-auto sm:px-6 sm:py-3 px-4 py-2 rounded hover:bg-red-600 flex items-center justify-center shadow-md"
+    >
+      <span>Ajouter une catégorie</span>
+    </button>
+  </div>
+
+  <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4 mt-10 justify-items-center">
+    <div
+      class="bg-white p-4 rounded-lg h-[25vh] w-[90%] flex items-center flex-col shadow-sm transition-transform duration-300 hover:scale-105 hover:shadow-lg cursor-pointer"
+      *ngFor="let categorie of dataSource"
+      (click)="redirectToCategoryDetails(categorie.id)"
+    >
+
+      <img class="w-full object-contain h-[90%] rounded-md" [src]="categorie.picture">
+      <h1 class="text-xl font-medium text-gray-700 mt-2">{{ categorie.nom }}</h1>
+    </div>
+  </div>
+
+  <!--<div class="mt-8 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+    <div
+      *ngFor="let categorie of dataSource"
+      (click)="redirectToCategoryDetails(categorie.id)"
+      class="relative bg-cover h-48 sm:h-60 w-full rounded-lg shadow-lg overflow-hidden cursor-pointer"
+      [ngStyle]="{'background-image': 'url(' + categorie.picture + ')'}"
+    >
+      <div class="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center">
+        <h2 class="text-white text-lg sm:text-xl font-bold text-center">
+          {{ categorie.nom }}
+        </h2>
+      </div>
+    </div>
+  </div>-->
+</div>

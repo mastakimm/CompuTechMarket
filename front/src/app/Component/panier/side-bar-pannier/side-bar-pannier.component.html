@@ -1,0 +1,29 @@
+ <div class="flex " >
+    <!-- Sidebar -->
+    <div [ngClass]="{'translate-x-0': this.sideBarAnimation.getSideBarAnimation(), 'translateSideBar': !this.sideBarAnimation.getSideBarAnimation()}" id="alerteNoir" class="-z-10 flex flex-row fixed top-0 right-0 w-3/12 h-[100vh] transition-all transi duration-300 transform z-30 pt-20">
+      <button (click)="toggleSidebar()" class="z-30 w-fit flex flex-col items-start h-fit relative left-0 text-white focus:outline-none z-30">
+        <svg id="chevron" class="bg-red-600 rotate-180 rounded-tr transition-transform" xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24">
+          <path d="M13.293 6.293L7.586 12l5.707 5.707 1.414-1.414L10.414 12l4.293-4.293z" fill="white"/>
+        </svg>
+      </button>
+      <div class="w-[95%] bg-white overflow-y-scroll h-full p-4">
+        <h1 class="text-3xl text-black">Total : {{ total | currency:'EUR' }}</h1>
+        <div class="flex items-start justify-start gap-4">
+          <button (click)="redirectCommander()" class="w-3/6 border-2 mt-5 bg-red-600 text-white  rounded p-1 cursor-pointer  border-red-600 transition-transform hover:scale-105">Payer</button>
+          <button (click)="redirectPannier()" style="color:rgb(220, 38, 38)" class="w-3/6 border-2 mt-5 text-red-500   rounded p-1 cursor-pointer  border-red-600 transition-transform hover:scale-105">Voir le panier</button>
+        </div>
+        <h2 class="text-2xl font-semibold mb-4 mt-4 text-black" >Votre Panier</h2>
+        <div class="h-[1px] w-full bg-gray-400 mb-4"></div>
+        <ng-container *ngFor="let item of items$ | async; let i = index" >
+          <app-card-side-bar-pannier
+            [item]="item"
+            (decreaseItemQuantity)="decreaseItemQuantity(item)"
+            (removeItem)="removeItem(item)"
+            (addItem)="addItem(item)"
+          ></app-card-side-bar-pannier>
+        </ng-container>
+      </div>
+    </div>
+  </div>
+
+
