@@ -1,4 +1,4 @@
-# thornament_backend
+# CompuTechMarket
 
 
 ## Getting started
